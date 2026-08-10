@@ -1,26 +1,1051 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+ * Snapi — marketing site design tokens
+ *
+ * Ported from the platform (`snapi-platform/src/app/globals.css`) so the two
+ * properties read as one brand, with two deliberate reductions:
+ *
+ *  1. **Light only.** The landing page has no theme toggle, so every `.dark`
+ *     block is gone rather than left unreachable. Anything that sits *on a
+ *     photograph* still gets fixed light values — a photo does not change
+ *     colour because the UI is light, and white type over a scrim is correct
+ *     here for the same reason it is correct in the app.
+ *  2. **Signature only.** The All Rounder flavour switch is not ported. The
+ *     azure tokens remain, because azure is the interactive colour in both
+ *     editions and the editions section needs it to show what All Rounder
+ *     looks like — but nothing repoints gold at it.
+ *
+ * Palette: near-black ink, gold as the single expressive colour, azure blue
+ * reserved for interactive states.
+ *
+ * Authored in OKLCH: perceptually uniform, so one lightness step reads as the
+ * same step across every hue.
+ * ------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.75rem;
+
+  /* Neutrals — warm paper page, neutral white cards */
+  --color-canvas: oklch(97.6% 0.004 85);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-raised: oklch(95.4% 0.005 85);
+  --color-surface-sunken: oklch(93.4% 0.006 85);
+
+  /* Text — warm near-black, never pure #000 (harsh on a bright page) */
+  --color-content: oklch(17% 0.008 60);
+  --color-content-muted: oklch(46.5% 0.008 60);
+  --color-content-subtle: oklch(62% 0.007 60);
+
+  /* Lines */
+  --color-border: oklch(90.5% 0.006 80);
+  --color-border-strong: oklch(79% 0.009 80);
+
+  /* Ink — the primary action surface. */
+  --color-ink: oklch(19% 0.008 60);
+  --color-ink-hover: oklch(28% 0.01 60);
+  --color-ink-content: oklch(98% 0.003 85);
+
+  /* Gold — the one expressive colour.
+   * `gold` is content-safe (AA on canvas); `gold-solid` is for fills. These are
+   * not interchangeable: a gold readable as text on cream is a dark bronze, and
+   * a gold that works as a filled badge is bright. */
+  --color-gold: oklch(54% 0.1 72);
+  --color-gold-solid: oklch(80% 0.12 85);
+  --color-gold-solid-hover: oklch(75% 0.125 84);
+  --color-gold-content: oklch(21% 0.025 70);
+  --color-gold-subtle: oklch(96.2% 0.028 85);
+  --color-gold-border: oklch(87% 0.055 82);
+
+  /* Azure.
+   *
+   * Reduced to the four values the page actually consumes: the focus ring, and
+   * the three the All Rounder edition panel needs to show what that edition looks
+   * like. `azure-hover`, `azure-solid-hover` and `azure-subtle` were ported from
+   * the platform and never used here — azure is not an interactive colour on a
+   * page whose only interactive elements are links and two buttons. */
+  --color-azure: oklch(47% 0.17 255);
+  --color-azure-solid: oklch(52% 0.18 255);
+  --color-azure-content: oklch(98% 0.01 255);
+  --color-azure-border: oklch(86% 0.06 255);
+
+  --color-ring: var(--color-azure);
+
+  /* Foil sheen range for `.text-foil`. Kept narrow so the gradient reads as a
+   * sheen across the glyph rather than as two different colours inside it.
+   * These clear 3:1 against the canvas — display sizes only, never body copy. */
+  --foil-from: oklch(64% 0.12 84);
+  --foil-mid: oklch(54% 0.115 74);
+  --foil-to: oklch(62% 0.12 82);
+
+  /* Travelling highlight for the composer's ring. A deeper gold at higher alpha
+   * than the app's dark-mode value — the bright gold used on near-black all but
+   * disappears against a near-white glass panel. */
+  --ring-sweep-gradient: conic-gradient(
+    from 0deg,
+    oklch(70% 0.13 80 / 0) 0deg,
+    oklch(70% 0.13 80 / 0) 210deg,
+    oklch(70% 0.13 80 / 0.5) 265deg,
+    oklch(82% 0.11 86 / 0.85) 290deg,
+    oklch(70% 0.13 80 / 0.5) 315deg,
+    oklch(70% 0.13 80 / 0) 360deg
+  );
+
+  /* The composer's outer bloom, as whole shadow values — there are two radii per
+   * state, so a single colour token could not carry it. */
+  --composer-bloom: 0 0 24px 4px oklch(72% 0.13 82 / 0.28), 0 0 60px 10px oklch(72% 0.13 82 / 0.14);
+  --composer-bloom-hover:
+    0 0 30px 5px oklch(72% 0.13 82 / 0.38), 0 0 70px 12px oklch(72% 0.13 82 / 0.2);
+  --composer-bloom-focus:
+    0 0 40px 8px oklch(72% 0.13 82 / 0.44), 0 0 90px 16px oklch(72% 0.13 82 / 0.22),
+    0 16px 40px oklch(0% 0 0 / 0.12);
+
+  /* Premium elevation — warm close shadow, cool far shadow. Two hues at two
+   * distances is what separates "expensive" from a flat grey drop shadow. */
+  --shadow-premium-sm: 0 1px 2px oklch(25% 0.02 70 / 0.05), 0 2px 8px -3px oklch(55% 0.1 85 / 0.1);
+  --shadow-premium:
+    0 1px 2px oklch(25% 0.02 70 / 0.05), 0 8px 24px -10px oklch(58% 0.11 85 / 0.16),
+    0 24px 56px -28px oklch(45% 0.14 255 / 0.18);
+  --shadow-premium-lg:
+    0 2px 4px oklch(25% 0.02 70 / 0.06), 0 16px 40px -12px oklch(58% 0.11 85 / 0.2),
+    0 40px 96px -36px oklch(45% 0.14 255 / 0.24);
 }
 
+/* ---------------------------------------------------------------------------
+ * Token → utility bridge
+ * `inline` so utilities resolve `var()` at the use site.
+ * ------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-canvas: var(--color-canvas);
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-sunken: var(--color-surface-sunken);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-content: var(--color-content);
+  --color-content-muted: var(--color-content-muted);
+  --color-content-subtle: var(--color-content-subtle);
+
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-ring: var(--color-ring);
+
+  --color-ink: var(--color-ink);
+  --color-ink-hover: var(--color-ink-hover);
+  --color-ink-content: var(--color-ink-content);
+
+  --color-gold: var(--color-gold);
+  --color-gold-solid: var(--color-gold-solid);
+  --color-gold-solid-hover: var(--color-gold-solid-hover);
+  --color-gold-content: var(--color-gold-content);
+  --color-gold-subtle: var(--color-gold-subtle);
+  --color-gold-border: var(--color-gold-border);
+
+  --color-azure: var(--color-azure);
+  --color-azure-solid: var(--color-azure-solid);
+  --color-azure-content: var(--color-azure-content);
+  --color-azure-border: var(--color-azure-border);
+
+  --shadow-premium-sm: var(--shadow-premium-sm);
+  --shadow-premium: var(--shadow-premium);
+  --shadow-premium-lg: var(--shadow-premium-lg);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* Editorial display serif, shared with the platform. Headings on couture
+   * surfaces only — never body copy or UI chrome. */
+  --font-display: var(--font-oranienbaum), "Cormorant Garamond", Georgia, serif;
+
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 0.25rem);
+  --radius-xl: calc(var(--radius) + 0.75rem);
+
+  --animate-rise: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Gold light travelling around the composer's edge. A rotating conic-gradient
+   * layer behind an inset panel is the only way to get this — animating a
+   * border-image or a box-shadow cannot move a highlight along a perimeter.
+   *
+   * Fired intermittently rather than looped. A continuous rotation is *less*
+   * noticeable, not more: peripheral vision responds to onset rather than to
+   * steady state, and the eye habituates to a regular low-amplitude loop within
+   * about two cycles, after which it filters it out entirely. Holding still for
+   * nine seconds and then travelling the perimeter in three restores the onset
+   * the eye is actually built to catch, and spends less total motion doing it. */
+  --animate-ring-sweep-burst: ring-sweep-burst 12s cubic-bezier(0.6, 0, 0.35, 1) infinite;
+
+  @keyframes ring-sweep-burst {
+    0% {
+      transform: rotate(0deg);
+    }
+    25%,
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Hard on/off at the halfway point, not a fade — a terminal caret does not
+   * dim. 1s square wave. */
+  --animate-caret-blink: caret-blink 1s linear infinite;
+
+  @keyframes caret-blink {
+    0%,
+    49.99% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------------------------------------------------------------------
+ * Marquee — plain CSS, deliberately outside `@theme`
+ *
+ * These are the only keyframes on the site with no `--animate-*` companion, and
+ * that is the point: `<InfiniteRibbon>` sets `animationName` as an inline style
+ * so one component can run the track in either direction from a prop. Tailwind
+ * cannot see a string in a `style` object, so declaring these inside `@theme`
+ * made them liable to be tree-shaken the moment the unused `--animate-marquee`
+ * utilities were removed — which is exactly what happened during this cleanup,
+ * and it would have silently frozen every ribbon on the page.
+ *
+ * Translating exactly -50% is what makes the loop seamless, and it depends on the
+ * track holding exactly two copies of the content. Changing one without the other
+ * makes the loop visibly jump.
+ * ------------------------------------------------------------------------- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Base layer
+ * ------------------------------------------------------------------------- */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    /* Native form controls and scrollbars follow the theme. Light only. */
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  /* Reserve scrollbar space only where the scrollbar actually takes space.
+   * Touch devices use overlay scrollbars, so an unconditional gutter just
+   * steals a strip of viewport on the smallest screens. */
+  @media (pointer: fine) {
+    html {
+      scrollbar-gutter: stable;
+    }
+  }
+
+  body {
+    @apply bg-canvas font-sans text-content antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  /* Visible, consistent focus for keyboard users on every interactive node.
+   * Azure — the one place blue always appears. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  ::selection {
+    background: var(--color-gold-subtle);
+    color: var(--color-content);
+  }
+
+  /* Respect users who ask the OS to calm things down. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Content-width container used by every section. */
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  /* A narrower measure for editorial prose. ~68 characters at body size, which
+   * is where reading speed peaks. */
+  .container-prose {
+    @apply mx-auto w-full max-w-2xl;
+  }
+
+  /**
+   * A dark chapter on a light site.
+   *
+   * The page is eight cream sections deep by the time it reaches Missions, and
+   * unrelieved cream reads as flat however good the typography is. Contrast is
+   * rhythm: one inverted band in the middle gives the scroll a spine, and it
+   * lands on the section that most deserves the drama.
+   *
+   * Implemented by **re-pointing the palette on an ancestor** rather than by a
+   * parallel set of `dark:` utilities. Every colour token is bridged through
+   * `@theme inline`, so `text-content` inside this scope resolves
+   * `var(--color-content)` at the use site and picks up the value redefined
+   * here. One lever; no component inside knows it is in a dark chapter, and
+   * nothing has to be written twice.
+   *
+   * The values are the platform's own dark theme verbatim — not a hand-mixed
+   * approximation — so the chapter is the app's dark mode rather than a
+   * marketing-only invention that drifts from it.
+   *
+   * Two that are easy to get wrong:
+   *
+   *  - **Canvas is 13.5%, never pure black.** Pure #000 makes elevation
+   *    impossible to express (nothing can sit *below* it) and crushes the
+   *    shadows in product photography.
+   *  - **Shadows become coloured light, not black.** On a dark ground a black
+   *    drop shadow is invisible, so elevation has to come from accent light
+   *    bleeding outward instead.
+   */
+  .chapter-dark {
+    --color-canvas: oklch(13.5% 0.005 60);
+    --color-surface: oklch(16.8% 0.006 60);
+    --color-surface-raised: oklch(20.5% 0.007 60);
+
+    --color-content: oklch(97% 0.003 85);
+    --color-content-muted: oklch(71% 0.007 70);
+    --color-content-subtle: oklch(55.5% 0.007 70);
+
+    --color-border: oklch(25.5% 0.007 60);
+    --color-border-strong: oklch(36% 0.009 60);
+
+    /* Ink inverts: the high-contrast action is now near-white on near-black. */
+    --color-ink: oklch(96% 0.003 85);
+    --color-ink-hover: oklch(89% 0.004 85);
+    --color-ink-content: oklch(15% 0.008 60);
+
+    /* Gold can be bright here — there is no white page to fight.
+     *
+     * `--color-gold-solid` is deliberately *not* redefined: a gold that works as
+     * a filled badge is already bright, so it is very nearly the same value in
+     * both themes and the gold buttons should look identical inside and outside
+     * the chapter. Only the hover direction flips — on a dark ground a fill
+     * brightens to signal press, where on cream it recedes. */
+    --color-gold: oklch(82% 0.125 86);
+    --color-gold-solid-hover: oklch(85% 0.125 86);
+    --color-gold-subtle: oklch(24% 0.042 80);
+    --color-gold-border: oklch(35% 0.06 82);
+
+    --foil-from: oklch(90% 0.1 90);
+    --foil-mid: oklch(78% 0.13 82);
+    --foil-to: oklch(86% 0.11 88);
+
+    --shadow-premium-sm: 0 1px 2px oklch(0% 0 0 / 0.4), 0 2px 10px -3px oklch(80% 0.12 85 / 0.07);
+    --shadow-premium:
+      0 1px 2px oklch(0% 0 0 / 0.45), 0 8px 28px -10px oklch(80% 0.12 85 / 0.12),
+      0 28px 64px -28px oklch(62% 0.18 255 / 0.22);
+    --shadow-premium-lg:
+      0 2px 4px oklch(0% 0 0 / 0.5), 0 18px 46px -12px oklch(80% 0.12 85 / 0.16),
+      0 46px 110px -36px oklch(62% 0.18 255 / 0.3);
+
+    background-color: var(--color-canvas);
+    color: var(--color-content);
+    /* Native form controls and scrollbars inside the chapter follow it. */
+    color-scheme: dark;
+  }
+
+  /**
+   * Scope for anything sitting on a photograph.
+   *
+   * Pins the gold tokens to their bright variants regardless of the page theme.
+   * Without this a photographic surface breaks in a way that is easy to miss:
+   * `--color-gold` and the `--foil-*` range are deliberately dark bronze here
+   * (they have to clear AA against a cream canvas), so gold type over a
+   * scrimmed photo would render nearly black on near-black.
+   *
+   * Works because the colour tokens are bridged through `@theme inline` — every
+   * `text-gold` inside resolves `var(--color-gold)` at the use site, so
+   * redefining it on an ancestor is enough. One lever, no per-element overrides.
+   */
+  .on-photo {
+    --color-gold: oklch(82% 0.125 86);
+    --color-gold-border: oklch(80% 0.13 85 / 0.45);
+    --foil-from: oklch(92% 0.09 90);
+    --foil-mid: oklch(80% 0.13 84);
+    --foil-to: oklch(88% 0.1 88);
+
+    /* Azure gets the same treatment for the same reason. The page's azure is a
+     * 47%-lightness blue tuned to clear AA against cream; on a scrimmed
+     * photograph it is very nearly black. The Editions section needs a readable
+     * azure over a photo to show what the All Rounder edition looks like, and
+     * without this it would show a dark smudge instead. */
+    --color-azure: oklch(74% 0.13 248);
+    --color-azure-border: oklch(74% 0.13 248 / 0.45);
+  }
+
+  /**
+   * The header while it has no plate behind it.
+   *
+   * At the top of the page the header is transparent over the hero's scrimmed
+   * cloth, and every token it uses is tuned for a cream page: `text-content` is a
+   * near-black, and the "Open Snapi" button is `bg-ink`, which is *also* a
+   * near-black — a primary action rendered invisible against the ground it sits
+   * on. Once the reader scrolls, the white plate arrives and all of that becomes
+   * correct again.
+   *
+   * Composed with `.on-photo`, which handles gold and the foil range, so this
+   * only carries what that one does not.
+   *
+   * Written as a palette swap rather than a set of conditional classes on each
+   * element. Every colour token is bridged through `@theme inline`, so
+   * `text-content-muted` on a nav link resolves `var(--color-content-muted)` at
+   * the use site and follows this automatically — one class on the `<header>`,
+   * and the logo, the links, the underline, the icon button and the CTA all
+   * invert together. The alternative is a `scrolled ?` ternary in six places, all
+   * of which have to be kept in step by hand.
+   *
+   * **`--color-ink` inverts rather than being replaced.** `ink` means "the
+   * high-contrast action", not "black" — so on a dark ground it is white with
+   * dark type, which is exactly what the platform's dark theme does with the same
+   * token. That keeps the button unmistakably primary in both states without
+   * spending a second gold on the same screen as the hero's CTA.
+   *
+   * **Gold is champagne here, not `.on-photo`'s bright gold.** This scope
+   * deliberately does not compose with `.on-photo`, which would have supplied a
+   * gold at ~0.55 luminance — fine for a display-size foil, but the emphasised
+   * "Snapi Extension" link is 13px, and at that size it lands under 3:1 on the
+   * scrimmed cloth. Pushing lightness to 89% and dropping chroma lifts it to
+   * roughly 3–4.3:1 and still reads unmistakably as gold rather than as off-white.
+   * Defining it here also removes an ordering dependency: composed with
+   * `.on-photo` the two classes had equal specificity, so which gold won came down
+   * to source order in this file.
+   */
+  .header-on-photo {
+    --color-content: oklch(100% 0 0);
+    --color-content-muted: oklch(100% 0 0 / 0.78);
+    --color-content-subtle: oklch(100% 0 0 / 0.6);
+
+    --color-border: oklch(100% 0 0 / 0.18);
+    --color-surface-raised: oklch(100% 0 0 / 0.12);
+
+    --color-ink: oklch(96% 0.003 85);
+    --color-ink-hover: oklch(88% 0.004 85);
+    --color-ink-content: oklch(15% 0.008 60);
+
+    --color-gold: oklch(89% 0.095 88);
+  }
+
+  /* A single hairline that fades out — closes a surface without the hard stop of
+   * a full-width border. */
+  .rule-fade {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-border) 12%,
+      var(--color-border) 88%,
+      transparent
+    );
+  }
+
+  /* Display type: optical tracking correction. Large text needs negative
+   * tracking to look the same weight as body copy. */
+  .display-xl {
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+
+  /* Small tracked label above a heading. Used often enough that inlining six
+   * utilities every time invites drift. */
+  .text-eyebrow {
+    @apply text-[11px] font-semibold tracking-[0.14em] uppercase;
+  }
+
+  /* Bottom-up scrim, so overlaid titles stay legible over arbitrary photography.
+   *
+   * The ramp is tuned from the contrast maths, not by eye. White text needs its
+   * backdrop at ≲0.18 relative luminance for 4.5:1. A high-key subject (a cream
+   * sneaker on a yellow sweep) sits around 0.65, and (1 − α) · 0.65 ≤ 0.18 means
+   * α ≳ 0.75 wherever type lands. Titles occupy roughly the bottom 0–30%, hence
+   * the near-opaque hold through that band before it falls away.
+   *
+   * It looks heavy in isolation and that is correct — this is how editorial card
+   * overlays are built. Weakening it only works until the first bright photo. */
+  .media-scrim {
+    background: linear-gradient(
+      to top,
+      oklch(8% 0.004 60 / 0.93) 0%,
+      oklch(8% 0.004 60 / 0.85) 14%,
+      oklch(8% 0.004 60 / 0.68) 30%,
+      oklch(8% 0.004 60 / 0.38) 52%,
+      oklch(8% 0.004 60 / 0.12) 74%,
+      transparent 100%
+    );
+  }
+
+  /* Gold foil text — a slight vertical sheen, as on stamped foil. The three
+   * stops span a narrow lightness range: a wide range makes the top and bottom
+   * of each glyph look like two different colours, which reads as muddy rather
+   * than metallic. `color` is set first as the fallback where
+   * background-clip:text is absent. */
+  .text-foil {
+    color: var(--foil-mid);
+    background: linear-gradient(
+      172deg,
+      var(--foil-from) 0%,
+      var(--foil-mid) 52%,
+      var(--foil-to) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Stops numbers jittering as digits change. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Scroll reveal
+ *
+ * Driven by `<Reveal>`, which sets `data-revealed` once the element enters the
+ * viewport. The hidden state is the interesting part: it sits behind
+ * `@media (scripting: enabled)` so it is only ever applied when there is script
+ * available to remove it again. With JS disabled, blocked, or still downloading,
+ * none of this matches and the content is simply visible — which is why the
+ * reveal cannot leave a page-long blank field on a bad connection the way an
+ * SSR'd `opacity: 0` inline style does.
+ *
+ * Timing is written out rather than referencing `--ease-out-quint`: that token
+ * is declared inside `@theme inline`, which exists to inline values into
+ * utilities rather than to publish a custom property for hand-written CSS.
+ * ------------------------------------------------------------------------- */
+[data-reveal] {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (scripting: enabled) {
+  [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  /**
+   * The image variant — a wipe rather than a fade.
+   *
+   * A photograph that fades up from nothing looks like a slow connection. One
+   * uncovered by a moving edge looks like a curtain being drawn, which is the
+   * gesture every fashion house uses and the reason their sites feel authored
+   * rather than animated. `clip-path` is also compositor-friendly, so a
+   * full-bleed plate wipes at 60fps where an `opacity` crossfade on a 2500px
+   * image does not.
+   *
+   * Paired with a slight scale so the frame is never uncovering a static
+   * picture — the image is still settling as the edge passes over it.
+   */
+  [data-reveal="image"]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 100% 0);
+  }
+
+  [data-reveal="image"] > * {
+    transform: scale(1.06);
+  }
+
+  [data-reveal="image"][data-revealed] > * {
+    transform: none;
+  }
+}
+
+[data-reveal="image"] {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal="image"] > * {
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------------------------------------------------------------------------
+ * The hero's scroll transition
+ *
+ * Every rule here reads one of the custom properties written by
+ * `HeroScrollStage` on each frame. Nothing transitions and nothing animates:
+ * the values *are* the scroll position, so a CSS `transition` on top would put
+ * the layers a beat behind the reader's own hand — the classic "scroll
+ * animation feels laggy" bug.
+ *
+ * All five defaults describe the opening state, so a stage whose script never
+ * runs — reduced motion, a failed bundle, a crawler — is the hero at rest with
+ * the photograph parked below the fold, exactly as the un-animated page was.
+ *
+ * Only `transform` and `opacity` are driven, so every frame stays on the
+ * compositor. Animating `height`, `top` or `background-position` here would
+ * force layout on a full-viewport photograph sixty times a second.
+ * ------------------------------------------------------------------------- */
+.hero-stage {
+  --hero-exit: 0;
+  --hero-exit-fast: 0;
+  --hero-rise: 0;
+  --hero-edge: 1;
+  /**
+   * Pinned to the dark end, and no longer animated.
+   *
+   * `--hero-glass` existed to cross-fade the composer and the results card from
+   * white frost on a cream page to the platform's dark hero glass as the
+   * photograph arrived. The hero's ground is now scrimmed gold cloth, so it is
+   * dark at *both* ends of the transition — a white card at rest would read as a
+   * light-mode widget pasted onto a dark hero.
+   *
+   * The cross-fade machinery is intact and dormant: `.glass-adaptive` and the
+   * two `.composer-fill` layers still interpolate on this value. Restore the
+   * behaviour by setting this back to `0` and re-adding the one `setProperty`
+   * call in `hero-scroll-stage.tsx`.
+   */
+  --hero-glass: 1;
+  --hero-intro: 0;
+  --hero-shift-end: 0px;
+}
+
+/* The composition settling onto the photograph.
+ *
+ * Zero at rest: the opening state is a normal flow column centred by the
+ * browser, so it needs no correction and is right on first paint. The offset is
+ * only for the end, where the balance has inverted — a short line of tension
+ * copy above the composer, a tall results card below it. `hero-scroll-stage.tsx`
+ * derives that single number.
+ *
+ * The interpolation rides `--hero-rise`, not `--hero-exit`: the opening copy has
+ * gone by 34% of the transition, and settling that early would move the composer
+ * into its final position long before the photograph it is settling *onto* had
+ * arrived. Tying it to the plate makes the two read as one movement.
+ *
+ * A transform rather than a height change. Collapsing the faded blocks would
+ * relayout a flex-centred subtree on every frame, which is exactly how a
+ * compositor animation becomes a janky one. */
+.hero-anchor {
+  transform: translate3d(0, calc(var(--hero-shift-end) * var(--hero-rise)), 0);
+}
+
+/* The opening copy: fades and drifts up a little, as though the page had lifted
+ * it away rather than switched it off. */
+.hero-exit {
+  opacity: calc(1 - var(--hero-exit));
+  transform: translate3d(0, calc(-14px * var(--hero-exit)), 0);
+}
+
+/* The answer card and the CTA row. Same idea, twice as fast, plus a whisper of
+ * scale so the card reads as receding rather than as merely dimming. */
+.hero-exit-fast {
+  opacity: calc(1 - var(--hero-exit-fast));
+  transform: translate3d(0, calc(-10px * var(--hero-exit-fast)), 0)
+    scale(calc(1 - 0.02 * var(--hero-exit-fast)));
+}
+
+/* Nothing invisible stays clickable. See the note in `hero-scroll-stage.tsx`. */
+.hero-stage[data-hero-past] .hero-exit,
+.hero-stage[data-hero-past] .hero-exit-fast {
+  pointer-events: none;
+}
+
+/**
+ * The scrim over the hero's gold cloth.
+ *
+ * **Flat, not a gradient.** An earlier version ramped from 0.6 at the top and
+ * bottom to 0.84 through the middle, on the reasoning that the extremities carry
+ * only the header plate and the ribbons and could afford to show more drape.
+ * That was wrong in practice: the cloth is a single continuous piece of fabric,
+ * and varying the veil over it reads as the *fabric* changing tone rather than as
+ * lighting — the eye attributes the gradient to the material, notices it does not
+ * match the folds, and the whole thing looks like a rendering artefact.
+ *
+ * A uniform veil keeps the drape's own highlights as the only variation, which is
+ * what makes it read as cloth.
+ *
+ * ## 0.78 is a floor, not a preference
+ *
+ * The cloth is a **high-key** image: its mid tones sit around 0.55 relative
+ * luminance and the lit folds reach roughly 0.75. Those folds are what set the
+ * limit, because type lands on them.
+ *
+ * Take the support paragraph, `text-white/85` — the lightest small text here.
+ * Composited over a backdrop of luminance `x` it reads `0.85 + 0.15x`, so 4.5:1
+ * requires:
+ *
+ *     (0.9 + 0.15x) / (x + 0.05) ≥ 4.5   ⟹   x ≤ 0.155
+ *
+ * and `x = (1 − α) · 0.75` gives **α ≥ 0.79**. Pure white would allow 0.76.
+ * Rounded up to 0.78, which is as light as this can go with body copy on it.
+ *
+ * Below that, paragraphs sitting on a lit fold stop being comfortably readable —
+ * and it fails first exactly where the cloth is prettiest, so it looks like a
+ * deliberate choice rather than a mistake.
+ *
+ * **If you want it lighter than this, the scrim is the wrong lever.** Change the
+ * image: a deeper gold, or the same drape with its highlights pulled down. A
+ * thinner veil over bright folds trades legibility for atmosphere, and on a page
+ * whose entire argument is judgement that is a bad trade.
+ *
+ * ## The eyebrow was already marginal
+ *
+ * The 11px gold eyebrow (`.on-photo`'s `oklch(82% 0.125 86)`, ~0.55 luminance)
+ * reaches about 4.4:1 over mid tones and 3.5:1 over the folds — under AA for
+ * small text even at the old 0.84, and around 3.2:1 here. It stays gold because
+ * that is a deliberate brand call, not an oversight; the alternatives are white
+ * type or a darker source image.
+ *
+ * ## Flat, not a gradient
+ *
+ * An earlier version ramped from 0.6 at the extremities to 0.84 through the
+ * middle, on the reasoning that the top and bottom carry only the header plate
+ * and the ribbons. That was wrong in practice: the cloth is a single continuous
+ * piece of fabric, and varying the veil over it reads as the *fabric* changing
+ * tone rather than as lighting. The eye attributes the gradient to the material,
+ * notices it does not follow the folds, and the whole thing looks like a
+ * rendering artefact. A uniform veil leaves the drape's own highlights as the
+ * only variation, which is what makes it read as cloth.
+ *
+ * The black is **warm** (`oklch(8% 0.02 70)`), not neutral. A neutral scrim
+ * desaturates gold towards olive-grey; a warm one keeps it reading as dark
+ * bronze, which is the point of using cloth at all.
+ */
+.hero-cloth-scrim {
+  background-color: oklch(8% 0.02 70 / 0.78);
+}
+
+/**
+ * The treatment over the hero's rising winter plate.
+ *
+ * A **gradient plus a vignette**, where the cloth above it is deliberately flat —
+ * and the difference is not inconsistency. A single piece of satin is one
+ * material, so varying the veil across it reads as the fabric changing tone. A
+ * foggy promenade is a *scene*, and darkening it towards the edges reads as
+ * atmospheric falloff, which is how editorial photography has always been
+ * printed. Same reasoning, opposite conclusion.
+ *
+ * ## Why it is heavy
+ *
+ * This is the brightest image on the site. The left half is fog and snow at
+ * roughly 0.85 relative luminance — higher than the gold cloth's lit folds — and
+ * the tension copy is centred white type that crosses it. Display text needs 3:1,
+ * so its backdrop has to come under 0.30, which over 0.85 fog means α ≥ 0.65 as
+ * an absolute floor. The band the copy occupies runs at 0.78.
+ *
+ * That the image ends up dark is a gain rather than a cost here. The copy is
+ * "the part nobody enjoys"; a cold, half-lit street is the mood, and a bright
+ * cheerful one would fight the sentence sitting on it.
+ *
+ * ## The two layers
+ *
+ * 1. **Vignette**, first in the stack so it sits under the veil. Pulls the
+ *    corners down hard, which is what stops the bright fog at the left edge
+ *    competing with the type — a uniform veil strong enough to handle the edges
+ *    would have flattened the centre.
+ * 2. **Veil**, strongest through the middle band where the eyebrow, the headline
+ *    and the results card sit, easing top and bottom. The very bottom carries only
+ *    the ribbons, which fade out anyway.
+ *
+ * The dark is **cool** (`oklch(10% 0.012 250)`), against the cloth's warm
+ * `oklch(8% 0.02 70)`. Snow is cold and a warm scrim over it looks like a
+ * mistake — and the temperature shift as the plate rises does real work: warm
+ * gold luxury handing over to a cold grey street is the argument the section is
+ * making.
+ */
+.hero-plate-scrim {
+  background:
+    radial-gradient(
+      125% 115% at 50% 42%,
+      transparent 28%,
+      oklch(10% 0.012 250 / 0.55) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      oklch(10% 0.012 250 / 0.62) 0%,
+      oklch(10% 0.012 250 / 0.78) 26%,
+      oklch(10% 0.012 250 / 0.78) 58%,
+      oklch(10% 0.012 250 / 0.6) 100%
+    );
+}
+
+/* The photograph and its ribbons, climbing from below the fold to fill the
+ * stage. `translate3d` on a percentage of the layer's own height, so it needs no
+ * knowledge of the viewport. */
+.hero-rise {
+  transform: translate3d(0, calc(100% - 100% * var(--hero-rise)), 0);
+  will-change: transform;
+}
+
+/* The soft cream boundary that travels at the photograph's leading edge, so the
+ * plate dissolves into the page instead of arriving as a hard horizontal seam.
+ * It clears once the photograph has landed — at rest it would sit as a haze
+ * across the top of an otherwise clean image. */
+.hero-edge {
+  opacity: var(--hero-edge);
+}
+
+/* The tension copy, arriving into the space the opening copy left. */
+.hero-intro {
+  opacity: var(--hero-intro);
+  transform: translate3d(0, calc(18px - 18px * var(--hero-intro)), 0);
+}
+
+/* The results card, arriving on the same curve.
+ *
+ * A separate class from `.hero-intro` for one reason: under reduced motion the
+ * tension copy is hidden outright (`<TheProblem>` renders it as a plain section
+ * instead), whereas the card must stay visible — it is the product, not a
+ * duplicate. Sharing `.hero-intro` would have hidden it along with the copy. */
+.hero-reveal {
+  opacity: var(--hero-intro);
+  transform: translate3d(0, calc(18px - 18px * var(--hero-intro)), 0);
+}
+
+/**
+ * Nothing that is invisible may intercept a click.
+ *
+ * Both arriving layers are stacked on top of live controls while they wait, and
+ * `opacity: 0` does not remove an element from hit testing:
+ *
+ *  - `.hero-intro` is bottom-aligned inside the copy block, so its ~150px lands
+ *    squarely over the two CTA buttons at the foot of that block.
+ *  - `.hero-reveal` is the results card, pinned under the composer.
+ *
+ * Either one alone is enough to make a button that is plainly visible refuse to
+ * respond — the worst kind of bug, because the page looks completely fine.
+ *
+ * They are re-armed at exactly the threshold where `[data-hero-past]` disarms
+ * the departing content, so the two states hand over cleanly and no two layers
+ * are ever live at once.
+ */
+.hero-intro,
+.hero-reveal {
+  pointer-events: none;
+}
+
+.hero-stage[data-hero-past] .hero-intro,
+.hero-stage[data-hero-past] .hero-reveal {
+  pointer-events: auto;
+}
+
+/* ---------------------------------------------------------------------------
+ * The composer's two materials
+ *
+ * The card starts as white frost on a cream page and ends as the platform's
+ * original marketing-hero glass — white-alpha over a dark photograph. These are
+ * not one colour interpolated: they are different constructions. The light fill
+ * carries a *black* bottom inset (on a pale panel the illusion of thickness
+ * depends entirely on that lower shade, and a white one is invisible), while the
+ * dark fill carries a white one.
+ *
+ * So both are rendered, stacked, and cross-faded. Mixing a single background
+ * colour would have to also mix two different shadow stacks, which CSS cannot
+ * do at all.
+ * ------------------------------------------------------------------------- */
+.composer-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.composer-fill-light {
+  background-color: oklch(100% 0 0 / 0.88);
+  box-shadow:
+    0 4px 24px oklch(0% 0 0 / 0.07),
+    inset 0 1px 0 oklch(100% 0 0 / 0.9),
+    inset 0 -1px 0 oklch(0% 0 0 / 0.05);
+  opacity: calc(1 - var(--hero-glass, 0));
+}
+
+.composer-fill-dark {
+  background-color: oklch(15% 0.007 60 / 0.86);
+  box-shadow:
+    0 4px 24px oklch(0% 0 0 / 0.25),
+    inset 0 1px 0 oklch(100% 0 0 / 0.1),
+    inset 0 -1px 0 oklch(100% 0 0 / 0.04);
+  opacity: var(--hero-glass, 0);
+}
+
+/**
+ * A surface whose whole palette travels with `--hero-glass`.
+ *
+ * Worn by both the composer and the results card, which is the point: they are
+ * one object speaking, so they cannot cross-fade on separate rules that drift.
+ *
+ * ## Why this is a palette swap and not a list of overrides
+ *
+ * Every colour token is bridged through `@theme inline`, so a utility like
+ * `text-content` compiles to `color: var(--color-content)` and resolves it at
+ * the *use* site. Redefining the token here is therefore enough for every
+ * descendant to follow — the card's rows, prices, dividers and skeletons all
+ * turn over with no per-element class. Same single lever as `.on-photo` and
+ * `.chapter-dark`.
+ *
+ * `color-mix` interpolates in oklab, so a label passing from near-black to
+ * near-white does not swing through the muddy mid-grey an sRGB mix produces.
+ *
+ * Two worth reading twice:
+ *
+ *  - **`--color-surface` mixes an opaque white into a *translucent* dark.** The
+ *    alpha travels with the colour, so the card is a solid panel on the cream
+ *    page and becomes glass by the time it is on the photograph. One property,
+ *    two materials.
+ *  - **`--color-gold` has to be redefined** for the reason `.on-photo` exists:
+ *    the page's gold is a dark bronze tuned to clear AA against cream, and on
+ *    dark glass it all but disappears.
+ */
+.glass-adaptive {
+  --color-content: color-mix(
+    in oklab,
+    oklch(17% 0.008 60),
+    oklch(97% 0.003 85) calc(var(--hero-glass, 0) * 100%)
+  );
+  --color-content-muted: color-mix(
+    in oklab,
+    oklch(46.5% 0.008 60),
+    oklch(78% 0.006 85) calc(var(--hero-glass, 0) * 100%)
+  );
+  --color-content-subtle: color-mix(
+    in oklab,
+    oklch(62% 0.007 60),
+    oklch(62% 0.006 85) calc(var(--hero-glass, 0) * 100%)
+  );
+
+  --color-border: color-mix(
+    in oklab,
+    oklch(90.5% 0.006 80),
+    oklch(100% 0 0 / 0.14) calc(var(--hero-glass, 0) * 100%)
+  );
+
+  --color-surface: color-mix(
+    in oklab,
+    oklch(100% 0 0),
+    oklch(15% 0.007 60 / 0.86) calc(var(--hero-glass, 0) * 100%)
+  );
+  --color-surface-raised: color-mix(
+    in oklab,
+    oklch(95.4% 0.005 85),
+    oklch(100% 0 0 / 0.1) calc(var(--hero-glass, 0) * 100%)
+  );
+
+  --color-gold: color-mix(
+    in oklab,
+    oklch(54% 0.1 72),
+    oklch(82% 0.125 86) calc(var(--hero-glass, 0) * 100%)
+  );
+  --color-gold-subtle: color-mix(
+    in oklab,
+    oklch(96.2% 0.028 85),
+    oklch(80% 0.13 85 / 0.16) calc(var(--hero-glass, 0) * 100%)
+  );
+
+  /* The composer's chips are alpha films over whatever is behind them rather
+   * than surfaces in their own right, so they get their own pair. */
+  --composer-chip-border: color-mix(
+    in oklab,
+    oklch(0% 0 0 / 0.1),
+    oklch(100% 0 0 / 0.16) calc(var(--hero-glass, 0) * 100%)
+  );
+  --composer-chip-bg: color-mix(
+    in oklab,
+    oklch(0% 0 0 / 0.035),
+    oklch(100% 0 0 / 0.08) calc(var(--hero-glass, 0) * 100%)
+  );
+}
+
+/* ---------------------------------------------------------------------------
+ * Reduced motion: no pin, no travel, normal flow.
+ *
+ * The script never runs, so the properties keep their opening defaults — which
+ * would leave the photograph parked one viewport below the stage forever. These
+ * rules put it back into the document instead, and the hero becomes an ordinary
+ * tall section: copy, composer, answer, CTAs, then the photographic band.
+ *
+ * `<TheProblem>` carries `motion-safe:hidden`, so the tension copy that the
+ * transition would have revealed is rendered as a plain section for exactly
+ * these readers. One source of copy, two presentations, only ever one visible.
+ * ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-exit,
+  .hero-exit-fast,
+  .hero-edge,
+  .hero-anchor,
+  .hero-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* The threshold attribute is never written under this preference, since the
+   * scroll loop never starts — so the card has to be re-armed here. */
+  .hero-reveal {
+    pointer-events: auto;
+  }
+
+  .hero-rise {
+    position: relative;
+    transform: none;
+    will-change: auto;
+    aspect-ratio: 2.5;
+  }
+
+  /* The revealed copy is `<TheProblem>`'s job under this preference. */
+  .hero-intro {
+    display: none;
+  }
+}
+
+/* Same specificity as the rule above and declared after it, so it wins without
+ * `!important`. Lifted rather than shortened: the global reduced-motion block
+ * collapses the transition to 0.01ms, which on its own would leave the element
+ * hidden until the observer fires and then snap it in — motion replaced by a
+ * flash, which is not what the preference asks for. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-reveal="image"]:not([data-revealed]) {
+    clip-path: none;
+  }
+
+  [data-reveal="image"] > * {
+    transform: none;
+  }
 }
