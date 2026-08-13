@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Oranienbaum } from "next/font/google";
+import { Geist, Oranienbaum } from "next/font/google";
 
 import { siteConfig } from "@/config/site";
 
@@ -8,15 +8,17 @@ import "./globals.css";
 /**
  * Fonts are self-hosted at build time by next/font — no runtime request to
  * Google, and `display: swap` keeps text visible while they load.
+ *
+ * **Two families, not three.** `Geist_Mono` was here from the `create-next-app`
+ * scaffold, wired to `--font-geist-mono`, bridged into Tailwind's `--font-mono`,
+ * and applied to `<html>` — and `font-mono` appears nowhere on the page. It was a
+ * whole family being subset, self-hosted and preloaded for zero glyphs. There is no
+ * monospace type on a luxury marketing page: no code, no data tables, no counters.
+ * The one place lining figures matter (the price column) uses `.tabular`, which is
+ * `font-variant-numeric` on Geist rather than a second family.
  */
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -92,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${oranienbaum.variable} h-full`}
+      className={`${geistSans.variable} ${oranienbaum.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         {/* First tab stop on the page — lets keyboard users skip the nav. */}

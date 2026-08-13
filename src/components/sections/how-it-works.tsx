@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import editorialImage from "@/assets/edit/street-style-fur-coat.jpg";
+import editorialImage from "@/assets/edit/poolside-resort.jpg";
 import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeader } from "@/components/ui/section";
 
@@ -15,6 +15,26 @@ import { Section, SectionHeader } from "@/components/ui/section";
  * The photograph is sticky on wide screens, so the reader's eye has a fixed
  * anchor while the steps move past it. Below `lg` it sits above the list — a
  * sticky element inside a short column just jitters.
+ *
+ * ## The photograph, and why it is this one
+ *
+ * This slot used to hold `street-style-fur-coat`, which Editions/Signature also
+ * uses. That was fine while six sections sat between them; once Editions moved up
+ * to follow What it is, the two became consecutive and read as one frame printed
+ * twice rather than as two photographs.
+ *
+ * `poolside-resort` replaces it, and the swap pays three ways:
+ *
+ *  - **Repetition.** Its other use is a 23vw Missions tile three sections further
+ *    down, heavily scrimmed and cropped differently. A large unscrimmed portrait
+ *    and a small scrimmed tile do not twin the way two large panels do.
+ *  - **Sharpness.** The box is portrait (4/5, then 3/4). The fur-coat frame is
+ *    landscape 1600×1066, so cropping it to 3/4 left roughly 800×1066 of usable
+ *    pixels against the ~1300×1730 this slot wants at 2× — a 1.6× upscale, visible
+ *    as softness in the fabric. `poolside-resort` is natively 1200×1800 and lands
+ *    within a rounding error of the requirement.
+ *  - **Meaning.** Two people doing nothing while the work happens elsewhere is the
+ *    literal argument of the heading above it.
  */
 
 const STEPS = [
@@ -91,11 +111,15 @@ export function HowItWorks() {
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl shadow-premium-lg sm:aspect-[3/4]">
                 <Image
                   src={editorialImage}
-                  alt="A woman in a silver fur coat seated on stone steps beside a black top-handle bag."
+                  alt="Two guests in white linen resting on striped daybeds under palm shadow at a resort poolside."
                   fill
                   sizes="(min-width: 1024px) 45vw, 92vw"
                   placeholder="blur"
-                  className="object-cover object-[62%_45%]"
+                  // Slightly above centre. The frame is 1200×1800 and this box
+                  // crops it by height at both breakpoints, so the only question
+                  // is which end to sacrifice: 45% keeps the seated pair whole and
+                  // spends the loss on empty stone at the foot.
+                  className="object-cover object-[50%_45%]"
                 />
 
                 <div

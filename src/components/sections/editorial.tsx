@@ -146,10 +146,15 @@ export function Editorial() {
 
         {/* ── 4. Index — the taper's narrowest point ─────────────────────── */}
         <Reveal>
+          {/* Was "Also in this issue" / "Shorter pieces, filed the same week".
+              Both had to go with the rewrite: the entries below are prompts now,
+              not pieces, and "shorter" was calibrated against the reading times
+              that no longer exist. This pair says where the block came from
+              instead, which is the claim the section's subhead already makes. */}
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 pb-6">
-            <h3 className="text-eyebrow text-content-subtle">Also in this issue</h3>
+            <h3 className="text-eyebrow text-content-subtle">From your searches</h3>
             <p className="text-[11px] tracking-wide text-content-subtle">
-              Shorter pieces, filed the same week
+              The briefs this issue was built from
             </p>
           </div>
 
@@ -171,7 +176,12 @@ export function Editorial() {
                   {story.title}
                 </h4>
 
-                <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-content-muted">
+                {/* No `line-clamp-2` any more. It guarded against three-line decks
+                    back when these were full editorial sentences; the constraint
+                    lines are contractually under six words, so the clamp could
+                    never fire and was only imposing `-webkit-box` and
+                    `overflow: hidden` on a single-line paragraph. */}
+                <p className="mt-2 text-[13px] leading-relaxed text-content-muted">
                   {story.standfirst}
                 </p>
               </li>
@@ -208,19 +218,20 @@ export function Editorial() {
 }
 
 /**
- * Category and length, above every headline.
+ * The category, above every headline.
  *
- * `tabular` on the figure so a column of these has a straight edge rather than a
- * ragged one where 3 sits next to 11.
+ * This was `Knitwear · 3 min read` until the reading times came off. Two things
+ * that went with them and should not quietly come back:
+ *
+ *  - **The flex row.** With one child there is nothing to lay out, so this is a
+ *    plain `<p>`. A `flex items-center gap-2.5` wrapper around a single span is the
+ *    kind of leftover that makes the next person look for the missing sibling.
+ *  - **`tabular`.** Lining figures existed so a column of these had a straight
+ *    edge where `3 min` sat next to `11 min`. There are no digits here now, and
+ *    tabular spacing on letters only widens them.
  */
 function Meta({ story }: { story: EditorialStory }) {
-  return (
-    <p className="flex items-center gap-2.5 text-[11px] tracking-wide text-content-subtle">
-      <span className="text-eyebrow text-gold">{story.category}</span>
-      <span aria-hidden="true">·</span>
-      <span className="tabular">{story.readMinutes} min read</span>
-    </p>
-  );
+  return <p className="text-eyebrow text-gold">{story.category}</p>;
 }
 
 /** One of the offset pair: a 4:5 frame with its caption below. */

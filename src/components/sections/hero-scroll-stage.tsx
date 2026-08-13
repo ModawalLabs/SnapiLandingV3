@@ -28,24 +28,26 @@ import * as React from "react";
  * plain CSS rule reading them. No component in the hero re-renders while
  * scrolling.
  *
- * ## The five signals
+ * ## The four signals
  *
  * They deliberately overlap rather than running in sequence — a transition whose
  * stages start only when the previous one has finished reads as a slideshow.
  *
- *  - `--hero-exit`      the opening copy leaving          (0 → 0.34)
- *  - `--hero-exit-fast` the answer card and CTAs leaving  (0 → 0.20)
- *  - `--hero-rise`      the photograph climbing           (0.10 → 0.72)
- *  - `--hero-edge`      the soft edge on the plate's leading boundary
- *  - `--hero-intro`     the tension copy arriving         (0.50 → 0.86)
+ *  - `--hero-exit`  the opening copy leaving   (0 → 0.34)
+ *  - `--hero-rise`  the photograph climbing    (0.10 → 0.72)
+ *  - `--hero-edge`  the soft edge on the plate's leading boundary
+ *  - `--hero-intro` the tension copy arriving  (0.50 → 0.86)
  *
- * `--hero-glass` is declared in `globals.css` but no longer written here: the
- * hero's ground is scrimmed gold cloth, so it is dark at both ends and the
- * composer stays on one material throughout.
+ * Two properties are declared in `globals.css` and deliberately not written here:
  *
- * The card and CTAs clear *first* (0.20) because they sit below the composer,
- * which is where the photograph arrives from. Fading them on the same curve as
- * the headline above would put live links on top of an incoming photograph.
+ *  - `--hero-glass` — the hero's ground is scrimmed gold cloth, so it is dark at
+ *    both ends and the composer stays on one material throughout. The cross-fade
+ *    machinery is intact and dormant.
+ *  - `--hero-exit-fast` — **removed entirely.** It ran a second, quicker exit lane
+ *    for the answer card and the CTA row, both of which have since left the opening
+ *    state: the card only appears after the reveal, and the CTAs sit above the
+ *    composer and travel with it. Nothing carried the class, so it was one
+ *    `setProperty` per frame feeding a rule that styled no element.
  *
  * ## Reduced motion
  *
@@ -223,7 +225,6 @@ export function HeroScrollStage({ children }: { children: React.ReactNode }) {
       const progress = span <= 0 ? 0 : clamp01(-rect.top / span);
 
       stage.style.setProperty("--hero-exit", ease(between(progress, 0, 0.34)).toFixed(4));
-      stage.style.setProperty("--hero-exit-fast", ease(between(progress, 0, 0.2)).toFixed(4));
       stage.style.setProperty("--hero-rise", ease(between(progress, 0.1, 0.72)).toFixed(4));
       stage.style.setProperty("--hero-edge", (1 - between(progress, 0.6, 0.74)).toFixed(4));
       stage.style.setProperty("--hero-intro", ease(between(progress, 0.5, 0.86)).toFixed(4));

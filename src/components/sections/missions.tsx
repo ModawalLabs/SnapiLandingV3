@@ -1,9 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
 
-import atelierMannequin from "@/assets/edit/atelier-mannequin.jpg";
-import bridalLight from "@/assets/edit/bridal-light.jpg";
-import poolsideResort from "@/assets/edit/poolside-resort.jpg";
 import sneakersStudio from "@/assets/edit/sneakers-studio.jpg";
+import steelMechanism from "@/assets/edit/steel-mechanism.jpg";
+import weddingBoutonniere from "@/assets/edit/wedding-boutonniere.jpg";
+import yellowShearlingCoat from "@/assets/edit/yellow-shearling-coat.jpg";
 import { buttonVariants } from "@/components/ui/button";
 import { MediaFrame } from "@/components/ui/media-frame";
 import { Reveal } from "@/components/ui/reveal";
@@ -43,6 +43,23 @@ import { cn } from "@/lib/utils";
  * chip and the collections count. A visitor who opens Snapi after reading this
  * should recognise the object they were shown — a landing page that invents its
  * own version of a real screen is a promise the product then has to break.
+ *
+ * ## Two things about this grid's photography
+ *
+ * **`steel-mechanism` on the Cartier tile is a hard disk drive.** Not a watch
+ * movement — an HDD platter and actuator arm, shot as a macro. It was chosen for
+ * the read rather than the subject: polished steel, concentric machining, a
+ * precision mechanism at 331px under a scrim that covers the lower third. At tile
+ * size it passes for horology, and `alt=""` means nothing is asserted to a screen
+ * reader. But it is not a watch, and anyone who knows drives will see a drive on a
+ * page whose entire argument is expert judgement. Flagged rather than fixed because
+ * it was an explicit choice; the fix, if wanted, is any watch macro.
+ *
+ * **The coat tile and its brief now disagree on colour.** The brief still reads
+ * "camel/oatmeal/charcoal" and the photograph is a canary-yellow shearling. The
+ * mission is called "A winter coat that isn't black", and yellow makes that point
+ * far better than camel ever did — so the photograph is right and the brief is the
+ * stale half. Widening the brief's colour list is a one-word change.
  *
  * ## Type over photography
  *
@@ -88,24 +105,33 @@ const MISSIONS: {
     brief: "Wool or wool-cashmere, mid-calf, camel/oatmeal/charcoal. No logos.",
     status: "running",
     collections: 11,
-    image: atelierMannequin,
-    focus: "object-[50%_45%]",
+    image: yellowShearlingCoat,
+    // Full-length figure in a 2:3 frame, and a 3:4 tile only discards 111px of
+    // height, so almost all of it survives. 35% spends that loss at the foot,
+    // below the boots, rather than cropping the head.
+    focus: "object-[50%_35%]",
   },
   {
     name: "Cartier Tank, pre-1990",
     brief: "Manual wind, original dial, papers preferred. Vetted resellers only.",
     status: "watching",
     collections: 4,
-    image: bridalLight,
-    focus: "object-[45%_50%]",
+    image: steelMechanism,
+    // Near-inert: only 111px of 1000 is discarded, so this shifts the subject by
+    // about one percent of the tile. Stated rather than omitted so nobody spends
+    // time tuning a value that cannot move anything.
+    focus: "object-[50%_55%]",
   },
   {
     name: "Amalfi wedding, September",
     brief: "Two looks, one evening. Silk or linen, packs without creasing, FR 38.",
     status: "watching",
     collections: 6,
-    image: poolsideResort,
-    focus: "object-[50%_42%]",
+    image: weddingBoutonniere,
+    // 2:3 into a 3:4 tile crops by height, dropping 111px. Biased up because the
+    // bottom of this tile is under the darkest part of the scrim carrying the
+    // mission name — detail spent down there is detail nobody sees.
+    focus: "object-[50%_38%]",
   },
   {
     name: "Loafers I can walk 10km in",

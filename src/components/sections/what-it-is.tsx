@@ -15,6 +15,36 @@ import { Section } from "@/components/ui/section";
  * The three modalities follow as columns rather than cards. Cards would imply
  * three separate features; these are three doors into the same one, and the
  * shared hairline is what says so.
+ *
+ * ## The opening line is deliberately shorter than it reads
+ *
+ * At display size every word costs a line, and a line costs the whole band's
+ * height. The four buyer's-checks after the em dash are the substance and all four
+ * stay; the trimming came out of the connective tissue instead — "describe what you
+ * are after in a sentence" → "describe what you want", and "whether the version in
+ * front of you is the one the review was written about" → "whether it is the
+ * version the review was about", which alone is fourteen words down to eight.
+ *
+ * Two things to preserve if this is edited again:
+ *
+ *  - **The tone split at the em dash.** The claim is `text-content`, the checks are
+ *    `text-content-subtle`. That is what lets one sentence work as both a headline
+ *    and a list without becoming two elements.
+ *  - **Four checks, not three.** Each is a distinct capability the product actually
+ *    has, and "sellers who ship without a story" is the one a reader remembers.
+ *
+ * ## Known duplication
+ *
+ * This paragraph is a paraphrase of the editor's letter's second paragraph in
+ * `EDITORS_LETTER`, and it opens with that letter's title verbatim. So the page
+ * makes the same argument twice in nearly the same words — here at section 3 and
+ * inside Editorial at section 9.
+ *
+ * The letter is locked: it is verbatim platform copy and must stay that way. If the
+ * repetition is to be resolved, it gets resolved *here* — most likely by keeping
+ * the "an assistant, not a search box" claim as this section's headline and letting
+ * the four checks belong to the letter alone, since the letter is the place the
+ * page is allowed to speak in the first person.
  */
 
 const MODALITIES: { icon: LucideIcon; title: string; body: string }[] = [
@@ -46,12 +76,11 @@ export function WhatItIs() {
             id="what-it-is-heading"
             className="mt-6 max-w-4xl font-display text-[clamp(1.75rem,3.9vw,3.25rem)] leading-[1.18] font-normal tracking-[-0.005em] text-content"
           >
-            An assistant, not a search box. Describe what you are after in a sentence and Snapi
-            reads the listings the way a good buyer would —{" "}
+            An assistant, not a search box. Describe what you want and Snapi reads the listings
+            like a good buyer —{" "}
             <span className="text-content-subtle">
-              who genuinely has stock, what the piece went for last month, which sellers ship
-              without a story, and whether the version in front of you is the one the review was
-              written about.
+              who really has stock, what the piece sold for last month, which sellers ship without a
+              story, and whether it is the version the review was about.
             </span>
           </h2>
         </Reveal>

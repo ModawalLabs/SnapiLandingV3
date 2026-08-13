@@ -38,17 +38,29 @@ import { cn } from "@/lib/utils";
  * photograph; without the scope the All Rounder side would show a dark smudge
  * where its accent should be.
  *
+ * ## Where this section sits
+ *
+ * Directly after What it is, not at the bottom of the page. Two reasons, and the
+ * second is the one that matters: a reader who has just been told what Snapi is
+ * asks "which one is for me" before they ask "how does it work", and an off-ramp
+ * for the reader who is not shopping for a Kelly is worth nothing once they have
+ * already left.
+ *
+ * It also carries the page's first inversion. Everything above is cream, and two
+ * full-bleed photographic worlds are a harder break than any heading.
+ *
  * ## Photography note
  *
- * The Signature plate reuses the street-style frame from How it works. It is six
- * sections away and cropped and graded completely differently, so it does not
- * read as a repeat — but this is the first place a commissioned shot should go
- * when real photography lands.
+ * The Signature plate has this frame to itself now. It used to be shared with How
+ * it works — acceptable at six sections' distance, but the move made them
+ * consecutive and they read as one photograph printed twice, so How it works took
+ * a different image. Still the first place a commissioned shot should go when real
+ * photography lands.
  *
- * Both sources are 1500px and there is no higher-resolution master for either.
- * On a wide screen this panel renders around 1050 CSS px, so at 2× device pixel
- * ratio it is upscaled — visible as softness in the fabric, not as artefacts. No
- * encode setting fixes that; it needs larger files.
+ * Both sources here are 1500px wide and there is no higher-resolution master for
+ * either. On a wide screen this panel renders around 1050 CSS px, so at 2× device
+ * pixel ratio it is upscaled — visible as softness in the fabric, not as
+ * artefacts. No encode setting fixes that; it needs larger files.
  */
 
 interface Edition {

@@ -25,39 +25,56 @@ import { WhatItIs } from "@/components/sections/what-it-is";
  *     the transition never happens. Exactly one of the two is ever visible.
  *  3. **What it is** — the plain-English answer, because "Found, not searched"
  *     is a promise and not a description.
- *  4. **How it works** — the mechanism, in four steps.
- *  5. **Pull quote** — the turn into the dark chapter, and the page's one piece
+ *  4. **Editions** — two photographic worlds. Placed here, directly after the
+ *     description, because the *first* thing a reader wants after "what is it"
+ *     is "which one is it for me". It is also the page's earliest off-ramp for
+ *     someone who is not shopping for a Kelly, and an off-ramp is worthless at
+ *     the bottom of a page they have already decided to leave.
+ *  5. **How it works** — the mechanism, in four steps.
+ *  6. **Pull quote** — the turn into the dark chapter, and the page's one piece
  *     of writing with no product in it.
- *  6. **Missions** — the differentiator, on near-black. Everything above is a
+ *  7. **Missions** — the differentiator, on near-black. Everything above is a
  *     better search box; this is the part a competitor cannot ship by adding a
  *     chat window.
- *  7. **Maisons** — coverage, for the reader who now believes it works and wants
+ *  8. **Maisons** — coverage, for the reader who now believes it works and wants
  *     to know whether it covers what they buy.
- *  8. **Editorial** — The Edit as a magazine spread, carrying the editor's letter
+ *  9. **Editorial** — The Edit as a magazine spread, carrying the editor's letter
  *     inside it. The page's only first-person voice, and the one place it argues
  *     rather than demonstrates.
- *  9. **Editions** — two photographic worlds; the off-ramp for someone who is
- *     not shopping for a Kelly.
  * 10. **Closing CTA** — the ask, over photography.
  *
  * ## Rhythm
  *
- * Light through step 4, dark for 5 and 6, light again through 8, then
- * photographic to the end. A long page with no inversion reads as flat however
- * good the typography is, and the eye needs to arrive somewhere rather than
- * merely continue.
+ * Moving Editions up fixed the page's worst structural problem rather than
+ * trading it for another one, which is worth recording because the reverse was
+ * the obvious risk.
  *
- * Maisons and Editorial are two light sections back to back, which would normally
- * be a flat stretch. Maisons closes on a full-bleed ink ribbon, so the break is
- * already there — and Editorial's own internal taper gives it enough shape not to
- * need help from its neighbours.
+ * **What it fixed:** the tail used to be three photographic bands with nothing
+ * between them — Editions' two dark full-bleed panels, then the closing CTA's
+ * third — which read as one long dark stretch instead of two moments. The page now
+ * ends Editorial (light, tapering) → Closing CTA (one dark photographic panel), so
+ * the close lands as an arrival.
  *
- * **The tail is now three photographic bands with nothing between them.** Editions
- * is two dark full-bleed panels and the closing CTA is a third, where a light
- * section used to sit in between. It reads as one long dark stretch rather than as
- * two moments. If nothing goes back into that slot, the closing panel is the thing
- * to change — a lighter grade, or type on cream over a photographic band, would
- * give the page an ending instead of a fade-out.
+ * **What it did not break:** Editions is dark, and it now sits between two light
+ * sections instead of between two dark ones. That is a gain in both directions —
+ * What it is → How it works was a long flat cream stretch, and Editions is exactly
+ * the kind of full-bleed inversion that breaks one.
+ *
+ * So: light, dark inversion at 4, light through 5, dark for 6–7, light through 9,
+ * one photographic close. A long page with no inversion reads as flat however good
+ * the typography is, and the eye needs to arrive somewhere rather than merely
+ * continue.
+ *
+ * Maisons and Editorial are still two light sections back to back. Maisons closes
+ * on a full-bleed ink ribbon, so the break is already there — and Editorial's own
+ * internal taper gives it enough shape not to need help from its neighbours.
+ *
+ * **The one cost, and it was paid rather than deferred:** Editions/Signature and
+ * How it works both used `street-style-fur-coat`. Six sections apart that read as
+ * two frames; adjacent it reads as one frame printed twice. How it works moved to
+ * `poolside-resort` — see the note there, which is also a sharpness win. If those
+ * two sections are ever separated again, that swap can stand: it is the better
+ * image for the slot on its own merits.
  *
  * ## Three sections that used to be here
  *
@@ -96,12 +113,12 @@ export default function Page() {
         <Hero />
         <TheProblem />
         <WhatItIs />
+        <Editions />
         <HowItWorks />
         <PullQuote />
         <Missions />
         <Maisons />
         <Editorial />
-        <Editions />
         <ClosingCta />
       </main>
 

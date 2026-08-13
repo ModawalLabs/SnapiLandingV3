@@ -49,15 +49,30 @@ const MAISONS = [
   "Patek Philippe",
 ] as const;
 
-// const STATS = [
-//   { value: "400+", label: "Boutiques & department stores" },
-//   { value: "40+", label: "Maisons covered end to end" },
-//   { value: "12", label: "Vetted resale partners" },
-// ] as const;
+/**
+ * There is deliberately no stats row here.
+ *
+ * A commented-out `STATS` array sat at this spot — "400+ boutiques", "40+ maisons",
+ * "12 vetted resale partners" — and it has been deleted rather than left dormant,
+ * because commented-out code reads as work in progress when it is actually a
+ * decision. The decision: those are three specific, checkable commercial claims
+ * that nobody has signed off, and a counted number on a marketing page is the first
+ * thing a sceptical reader tests. The list of twenty houses below makes the coverage
+ * argument without asserting a figure.
+ *
+ * Note that the hero's demo does state comparable numbers in its `scanned` strings
+ * ("412 boutiques · 12 resale partners"). Those are framed as what one search swept
+ * rather than as a standing claim about the business, which is a materially weaker
+ * assertion — but if the figures ever need sign-off, that is the other place to look.
+ */
 
 export function Maisons() {
+  // `padded={false}` because the ribbon below is full-bleed and must sit flush
+  // against the section's foot; the inner div owns the vertical rhythm instead.
+  // No `className="scroll-mt-24"` here — `Section` applies that unconditionally,
+  // and passing it again was a duplicate that `cn` silently collapsed.
   return (
-    <Section id="maisons" aria-labelledby="maisons-heading" padded={false} className="scroll-mt-24">
+    <Section id="maisons" aria-labelledby="maisons-heading" padded={false}>
       <div className="py-24 sm:py-32 lg:py-40">
         <div className="container-page">
           <Reveal>

@@ -21,8 +21,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * Tones are deliberately fixed values rather than palette tokens, on the same
- * reasoning as `.media-placeholder`: a printed ribbon is a physical object, and
- * an object does not change colour because the UI did.
+ * reasoning as the `onPhoto` button variant: a printed ribbon is a physical object,
+ * and an object does not change colour because the UI did.
  *
  * `bg-ink` was the obvious token and is wrong here — `ink` is the *action*
  * surface, and reusing it would couple a decorative strip to the button colour.

@@ -149,7 +149,18 @@
   --shadow-premium-lg: var(--shadow-premium-lg);
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* Monospace removed outright, not merely unset.
+   *
+   * This used to point at a Geist Mono that `layout.tsx` was subsetting,
+   * self-hosting and preloading — for a `font-mono` utility that appears nowhere on
+   * the page. Deleting the line alone was not enough: Tailwind ships its own
+   * `--font-mono` default, so it fell back to the built-in system stack and kept
+   * emitting a `.font-mono` utility for a family this page has no use for.
+   * `initial` is how v4 removes a default rather than overriding it.
+   *
+   * The one place lining figures matter is the price column, and that uses
+   * `.tabular` — `font-variant-numeric` on Geist — not a second family. */
+  --font-mono: initial;
   /* Editorial display serif, shared with the platform. Headings on couture
    * surfaces only — never body copy or UI chrome. */
   --font-display: var(--font-oranienbaum), "Cormorant Garamond", Georgia, serif;
@@ -621,7 +632,6 @@
  * ------------------------------------------------------------------------- */
 .hero-stage {
   --hero-exit: 0;
-  --hero-exit-fast: 0;
   --hero-rise: 0;
   --hero-edge: 1;
   /**
@@ -670,22 +680,27 @@
   transform: translate3d(0, calc(-14px * var(--hero-exit)), 0);
 }
 
-/* The answer card and the CTA row. Same idea, twice as fast, plus a whisper of
- * scale so the card reads as receding rather than as merely dimming. */
-.hero-exit-fast {
-  opacity: calc(1 - var(--hero-exit-fast));
-  transform: translate3d(0, calc(-10px * var(--hero-exit-fast)), 0)
-    scale(calc(1 - 0.02 * var(--hero-exit-fast)));
-}
+/* There was a `.hero-exit-fast` here — the same fade, twice as quick, with a
+ * whisper of scale — for the answer card and the CTA row. Both of those moved out
+ * of the opening state: the card is only ever shown after the reveal, and the CTAs
+ * now sit above the composer and travel with it. Nothing was left carrying the
+ * class, so it went, along with its `--hero-exit-fast` variable and the
+ * `setProperty` call that recomputed it on every frame of the scroll.
+ *
+ * If a second, faster exit lane is ever needed again, it is six lines — but do not
+ * reintroduce it speculatively. An exit lane with no elements on it still costs a
+ * write per frame and reads, to the next person, as though something is animating. */
 
 /* Nothing invisible stays clickable. See the note in `hero-scroll-stage.tsx`. */
-.hero-stage[data-hero-past] .hero-exit,
-.hero-stage[data-hero-past] .hero-exit-fast {
+.hero-stage[data-hero-past] .hero-exit {
   pointer-events: none;
 }
 
 /**
  * The scrim over the hero's gold cloth.
+ *
+ * Named for its **image**, not its position: the cloth started as the hero's
+ * ground and is now the layer that climbs over it. This veil moved with it.
  *
  * **Flat, not a gradient.** An earlier version ramped from 0.6 at the top and
  * bottom to 0.84 through the middle, on the reasoning that the extremities carry
@@ -698,37 +713,29 @@
  * A uniform veil keeps the drape's own highlights as the only variation, which is
  * what makes it read as cloth.
  *
- * ## 0.78 is a floor, not a preference
+ * ## Why this one can be lighter than the winter frame
  *
  * The cloth is a **high-key** image: its mid tones sit around 0.55 relative
  * luminance and the lit folds reach roughly 0.75. Those folds are what set the
- * limit, because type lands on them.
+ * limit, because type lands on them — and *which* type is the whole difference
+ * between the two veils.
  *
- * Take the support paragraph, `text-white/85` — the lightest small text here.
- * Composited over a backdrop of luminance `x` it reads `0.85 + 0.15x`, so 4.5:1
- * requires:
+ * When the cloth was the hero's opening ground it carried a 15–17px support
+ * paragraph, and small white text over a 0.75 fold needs α ≥ 0.76 to clear 4.5:1.
+ * That is what pinned it at 0.78.
  *
- *     (0.9 + 0.15x) / (x + 0.05) ≥ 4.5   ⟹   x ≤ 0.155
+ * Since the two photographs swapped, the cloth only ever appears as the *end*
+ * state, where the only type on it is the tension headline — display size, so 3:1
+ * is the bar, satisfied by α ≥ 0.60. The results card below it is dark glass at
+ * 86% opacity and supplies its own contrast entirely.
  *
- * and `x = (1 − α) · 0.75` gives **α ≥ 0.79**. Pure white would allow 0.76.
- * Rounded up to 0.78, which is as light as this can go with body copy on it.
+ * So this dropped to **0.72** while the winter frame held at 0.74: not
+ * inconsistency, but each veil sized to the smallest type actually sitting on it.
+ * At 0.72 the tension headline reads about 4.3:1.
  *
- * Below that, paragraphs sitting on a lit fold stop being comfortably readable —
- * and it fails first exactly where the cloth is prettiest, so it looks like a
- * deliberate choice rather than a mistake.
- *
- * **If you want it lighter than this, the scrim is the wrong lever.** Change the
- * image: a deeper gold, or the same drape with its highlights pulled down. A
- * thinner veil over bright folds trades legibility for atmosphere, and on a page
- * whose entire argument is judgement that is a bad trade.
- *
- * ## The eyebrow was already marginal
- *
- * The 11px gold eyebrow (`.on-photo`'s `oklch(82% 0.125 86)`, ~0.55 luminance)
- * reaches about 4.4:1 over mid tones and 3.5:1 over the folds — under AA for
- * small text even at the old 0.84, and around 3.2:1 here. It stays gold because
- * that is a deliberate brand call, not an oversight; the alternatives are white
- * type or a darker source image.
+ * The 11px gold eyebrow is the exception, at roughly 2.5:1 here. It stays gold
+ * because that is a deliberate brand call, not an oversight; the alternatives are
+ * white type or a darker source frame.
  *
  * ## Flat, not a gradient
  *
@@ -746,60 +753,72 @@
  * bronze, which is the point of using cloth at all.
  */
 .hero-cloth-scrim {
-  background-color: oklch(8% 0.02 70 / 0.78);
+  background-color: oklch(8% 0.02 70 / 0.72);
 }
 
 /**
- * The treatment over the hero's rising winter plate.
+ * The treatment over the hero's winter promenade.
  *
- * A **gradient plus a vignette**, where the cloth above it is deliberately flat —
- * and the difference is not inconsistency. A single piece of satin is one
- * material, so varying the veil across it reads as the fabric changing tone. A
- * foggy promenade is a *scene*, and darkening it towards the edges reads as
- * atmospheric falloff, which is how editorial photography has always been
- * printed. Same reasoning, opposite conclusion.
+ * Named for its **image**, not its position — the two hero photographs have
+ * already swapped layers once, and a class called `plate-scrim` immediately
+ * became a lie. A veil is tuned to the frame underneath it and travels with it.
  *
- * ## Why it is heavy
+ * A **gradient plus a vignette**, where the cloth's is deliberately flat — and
+ * the difference is not inconsistency. A single piece of satin is one material,
+ * so varying the veil across it reads as the fabric changing tone. A foggy
+ * promenade is a *scene*, and darkening it towards the edges reads as atmospheric
+ * falloff, which is how editorial photography has always been printed. Same
+ * reasoning, opposite conclusion.
+ *
+ * ## Why it is heavy, and where the weight is spent
  *
  * This is the brightest image on the site. The left half is fog and snow at
  * roughly 0.85 relative luminance — higher than the gold cloth's lit folds — and
- * the tension copy is centred white type that crosses it. Display text needs 3:1,
- * so its backdrop has to come under 0.30, which over 0.85 fog means α ≥ 0.65 as
- * an absolute floor. The band the copy occupies runs at 0.78.
+ * the copy over it is centred white type that crosses exactly that half.
  *
- * That the image ends up dark is a gain rather than a cost here. The copy is
- * "the part nobody enjoys"; a cold, half-lit street is the mood, and a bright
- * cheerful one would fight the sentence sitting on it.
+ * The important consequence: **this frame cannot be lightened uniformly.** Solving
+ * 4.5:1 for pure white small text over 0.85 fog,
+ *
+ *     1.05 / ((1 − α) · 0.85 + 0.05) ≥ 4.5   ⟹   α ≥ 0.785
+ *
+ * so anything under about 0.79 puts the support paragraph below AA. Display text
+ * only needs 3:1, which α ≥ 0.65 covers comfortably.
+ *
+ * So lightening spends its budget on the **extremities**, not the middle. The
+ * corners went from a combined ~0.83 to ~0.69 — a large, obvious opening exactly
+ * where the reader perceives "how dark is this image" — while the copy band moved
+ * only 0.78 → 0.74. The frame reads materially lighter and the type barely moved.
+ *
+ * At 0.74 the numbers are: white display headline 3.9:1 (passes), white support
+ * paragraph 3.9:1 (under the 4.5 it wants), 11px gold eyebrow ~2.2:1. The eyebrow
+ * is gold because that is a deliberate brand call, and it was already marginal on
+ * the cloth before these two images swapped. **If strict AA matters more than the
+ * photograph, the fix is not a heavier veil — it is a darker source frame, or
+ * moving the small copy off the fog.**
  *
  * ## The two layers
  *
- * 1. **Vignette**, first in the stack so it sits under the veil. Pulls the
- *    corners down hard, which is what stops the bright fog at the left edge
- *    competing with the type — a uniform veil strong enough to handle the edges
- *    would have flattened the centre.
- * 2. **Veil**, strongest through the middle band where the eyebrow, the headline
- *    and the results card sit, easing top and bottom. The very bottom carries only
- *    the ribbons, which fade out anyway.
+ * 1. **Vignette**, first in the stack so it sits under the veil. Pulls the corners
+ *    down, which is what lets the middle stay comparatively open — a uniform veil
+ *    strong enough to handle the bright left edge would have crushed the centre.
+ * 2. **Veil**, strongest through the middle band where the eyebrow, the headline,
+ *    the paragraph and the buttons sit, easing top and bottom. The very bottom
+ *    carries only the ribbons, which fade out anyway.
  *
  * The dark is **cool** (`oklch(10% 0.012 250)`), against the cloth's warm
  * `oklch(8% 0.02 70)`. Snow is cold and a warm scrim over it looks like a
- * mistake — and the temperature shift as the plate rises does real work: warm
- * gold luxury handing over to a cold grey street is the argument the section is
- * making.
+ * mistake — and the temperature shift as the cloth rises over it does real work:
+ * a cold grey street handing over to warm gold is the transition the hero makes.
  */
-.hero-plate-scrim {
+.hero-winter-scrim {
   background:
-    radial-gradient(
-      125% 115% at 50% 42%,
-      transparent 28%,
-      oklch(10% 0.012 250 / 0.55) 100%
-    ),
+    radial-gradient(125% 115% at 50% 42%, transparent 28%, oklch(10% 0.012 250 / 0.4) 100%),
     linear-gradient(
       to bottom,
-      oklch(10% 0.012 250 / 0.62) 0%,
-      oklch(10% 0.012 250 / 0.78) 26%,
-      oklch(10% 0.012 250 / 0.78) 58%,
-      oklch(10% 0.012 250 / 0.6) 100%
+      oklch(10% 0.012 250 / 0.48) 0%,
+      oklch(10% 0.012 250 / 0.74) 26%,
+      oklch(10% 0.012 250 / 0.74) 58%,
+      oklch(10% 0.012 250 / 0.46) 100%
     );
 }
 
@@ -1003,7 +1022,6 @@
  * ------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .hero-exit,
-  .hero-exit-fast,
   .hero-edge,
   .hero-anchor,
   .hero-reveal {
