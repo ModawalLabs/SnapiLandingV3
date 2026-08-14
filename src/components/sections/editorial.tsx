@@ -75,7 +75,7 @@ export function Editorial() {
             headingId="editorial-heading"
             eyebrow="The Edit"
             title="Considered writing on what to buy, what to keep, and what to leave behind."
-            description="Every issue is assembled for one reader. Snapi builds yours from what you have saved, searched and asked it to watch — so the pieces in it are the ones you were already deciding about."
+            description="Every issue is made for one reader. Snapi builds yours from what you have saved, searched and asked it to watch — so the pieces in it are the ones you were already thinking about."
           />
         </Reveal>
 

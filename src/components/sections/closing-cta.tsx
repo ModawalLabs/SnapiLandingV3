@@ -62,8 +62,8 @@ export function ClosingCta() {
               </h2>
 
               <p className="mt-7 max-w-lg text-[1.0625rem] leading-relaxed text-white/75">
-                Snapi finds it, prices it honestly, and waits with you until it is worth buying.
-                Open it and describe one thing you have been looking for.
+                Snapi finds it, tells you what it is really worth, and waits with you until the
+                moment is right. Describe one thing you have been looking for.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">

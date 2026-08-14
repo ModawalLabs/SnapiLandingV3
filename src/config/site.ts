@@ -9,12 +9,22 @@ export const siteConfig = {
   name: "Snapi",
   /** Kept in step with the hero headline — this string feeds every page title. */
   tagline: "Found, not searched.",
+  /** Kept in step with the hero's support line, word for word after the dash. */
   description:
-    "Snapi is an AI-assisted personal shopper. Snap it, say it, or simply describe it — Snapi searches every maison and vetted reseller, compares the real price, and tells you when to buy.",
+    "Snapi is an AI shopping concierge. Snap it, say it, or simply describe it — Snapi combs every maison and vetted reseller, prices it honestly, and tells you when to buy.",
   url: "https://snapi.app",
   locale: "en-US",
   /** Must track --color-canvas in globals.css. */
   themeColor: "#faf8f4",
+  /**
+   * Search terms, deliberately **not** rewritten to match the page's voice.
+   *
+   * The visible copy calls Snapi a concierge. Nobody types "AI shopping concierge"
+   * into a search engine — they type "assistant" and "personal shopper", by a wide
+   * margin. Keywords exist to be matched against what people actually search for,
+   * not to be consistent with the headline above them, and a brand that renames its
+   * own category is the one that most needs to keep the old word here.
+   */
   keywords: [
     "AI shopping assistant",
     "AI personal shopper",

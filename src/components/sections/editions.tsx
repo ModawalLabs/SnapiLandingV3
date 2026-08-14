@@ -79,7 +79,13 @@ interface Edition {
 const EDITIONS: Edition[] = [
   {
     name: "Signature",
-    tagline: "Curated luxury, tailored to you.",
+    // Was "Curated luxury, tailored to you." — the flattest line on the page, two
+    // marketing words in five, and the only tagline that told the reader nothing
+    // they could picture. It also failed to contrast with All Rounder's "Everything
+    // worth having", which is the one job a pair of taglines has. "The few things"
+    // against "Everything" is the whole difference between the editions in three
+    // words.
+    tagline: "The few things worth keeping.",
     body: "Every maison and vetted reseller, read with judgement. Provenance, condition, and the resale floor matter as much as the price.",
     points: [
       "Authorised boutiques and vetted resale",
@@ -99,7 +105,7 @@ const EDITIONS: Edition[] = [
     // compared. Rewritten around the landed price instead — which is the claim the
     // rest of the page already makes and demonstrates in the hero, rather than a
     // second capability asserted only here.
-    body: "The same assistant aimed wider. Thousands of sellers at once, compared on the landed price rather than the sticker, and narrowed to what is actually worth buying.",
+    body: "The same concierge, aimed wider. Thousands of sellers at once, judged on what you actually pay rather than the sticker, and narrowed to what is worth having.",
     points: [
       "Thousands of sellers, checked in one pass",
       "Every landed price compared, not just the sticker",
@@ -171,11 +177,11 @@ export function Editions() {
             id="editions-heading"
             className="mx-auto mt-4 max-w-3xl font-display text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.08] font-normal tracking-[-0.005em] text-content"
           >
-            One assistant. Two registers.
+            One concierge. Two registers.
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-[1.0625rem] leading-relaxed text-content-muted">
-            Switch whenever you like — the missions, the list, and everything Snapi has learned
+            Switch whenever you like. The missions, the list, and everything Snapi has learned
             about you come with you.
           </p>
         </Reveal>

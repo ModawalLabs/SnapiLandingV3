@@ -51,7 +51,7 @@ const MODALITIES: { icon: LucideIcon; title: string; body: string }[] = [
   {
     icon: Camera,
     title: "Snap it",
-    body: "Point your camera at anything — a passer-by’s coat, a shop window, a page torn from a magazine. Snapi identifies the piece and finds it, or finds the closest thing that exists.",
+    body: "Point your camera at anything — a passer-by’s coat, a shop window, a page torn from a magazine. Snapi names the piece and finds it, or finds the closest thing that exists.",
   },
   {
     icon: Mic,
@@ -76,7 +76,7 @@ export function WhatItIs() {
             id="what-it-is-heading"
             className="mt-6 max-w-4xl font-display text-[clamp(1.75rem,3.9vw,3.25rem)] leading-[1.18] font-normal tracking-[-0.005em] text-content"
           >
-            An assistant, not a search box. Describe what you want and Snapi reads the listings
+            A concierge, not a search box. Describe what you want and Snapi reads the listings
             like a good buyer —{" "}
             <span className="text-content-subtle">
               who really has stock, what the piece sold for last month, which sellers ship without a

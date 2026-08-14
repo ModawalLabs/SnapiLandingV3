@@ -14,6 +14,52 @@ import { WhatItIs } from "@/components/sections/what-it-is";
 /**
  * The landing page.
  *
+ * ## Voice: Snapi is a concierge, not an assistant
+ *
+ * The product's noun changed across the whole page. "Assistant" is a *category* —
+ * it says which shelf the software sits on, and every AI product on that shelf uses
+ * it. "Concierge" is a *relationship*: someone who knows the city, knows you, and
+ * whose value is judgement rather than throughput. On a page whose entire argument
+ * is that Snapi will tell you *not* to buy, the second noun is the one that carries
+ * the claim.
+ *
+ * Four visible places changed — the What Snapi is headline, the Editions heading,
+ * the All Rounder blurb, and the editor's letter's title. One place deliberately
+ * did **not**: `siteConfig.keywords` still says "AI shopping assistant", because
+ * nobody searches for a concierge. See the note there.
+ *
+ * ## The emotional pass, and its one rule
+ *
+ * Copy was warmed without being lengthened. The constraint was flat word count and
+ * the pass finished four words **under**, section by section: −1 hero, −3 Missions,
+ * +2 Maisons, +1 closing panel, −2 How it works, −1 meta description. The method was
+ * to keep every sentence's skeleton and swap the *verbs*, because verbs are where
+ * marketing copy goes cold:
+ *
+ *  - `searches` → `combs`, `aggregates` → `reads`, `identifies` → `names`,
+ *    `assembled` → `made`, `an agent works it in the background` → `it carries on
+ *    without you`.
+ *  - `until it is worth buying` → `until the moment is right`. The first describes
+ *    a price threshold; the second describes waiting with someone.
+ *
+ * One phrase moved rather than changed. `prices it honestly` was in the closing
+ * panel, which now says `tells you what it is really worth`; the phrase went up to
+ * the hero, where it replaced `compares the real price` and is both warmer and seven
+ * characters shorter. That mattered more than usual there — the hero's support line
+ * sits inside a pinned, `svh`-clamped stage that has to fit two states in one
+ * viewport, so it is the one paragraph on the page where a longer sentence can cost
+ * a line of layout rather than just a line of text.
+ *
+ * Two things were left alone on purpose, and should stay that way:
+ *
+ *  - **The editor's letter's three paragraphs.** They are the best writing on the
+ *    page. A warmth pass over them would have been competition, not improvement.
+ *  - **The lines that already land**: "Found, not searched.", "It keeps looking
+ *    after you close the tab.", "The piece you have been describing to people
+ *    already exists.", the pull quote, and all four of the tension copy's failures.
+ *    The temptation in a pass like this is to touch everything; the discipline is
+ *    to touch only what is cold.
+ *
  * ## The order is an argument
  *
  *  1. **Hero** — the claim, and a conversation that answers itself, so the

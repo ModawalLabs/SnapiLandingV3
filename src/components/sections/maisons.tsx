@@ -81,7 +81,7 @@ export function Maisons() {
               align="center"
               eyebrow="Maisons on Snapi"
               title="Browse by house, not by search engine."
-              description="Snapi aggregates authorised boutiques and vetted resale for each maison, so one question covers the official stock and the secondary market at the same time."
+              description="Snapi reads every authorised boutique and vetted reseller for a house at once, so one question covers the official stock and whatever is quietly for sale elsewhere."
             />
           </Reveal>
 

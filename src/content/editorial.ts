@@ -190,13 +190,23 @@ export const EDITORIAL_MASTHEAD = {
 /**
  * The editor's letter.
  *
- * Verbatim from the platform's `mockEditorsLetter`, headline included. Resist
- * editing these for the marketing site: two versions of the same argument in
- * slightly different words is how a brand stops sounding like one person.
+ * Verbatim from the platform's `mockEditorsLetter` — **with one deliberate
+ * exception**. The headline read "An assistant, not a search box." and now reads
+ * "A concierge, not a search box.", because the page renamed what Snapi is and this
+ * was one of four places carrying the old word. Leaving it would have put two names
+ * for the same thing on one page, which is worse than the drift.
+ *
+ * ⚠️ **The platform's `mockEditorsLetter` should be updated to match.** Until it is,
+ * these two properties disagree on the product's own noun — and this file's whole
+ * premise is that they do not.
+ *
+ * The three paragraphs are untouched and should stay that way. They are the warmest
+ * writing on the page already; the emotional pass deliberately skipped them rather
+ * than competing with them.
  */
 export const EDITORS_LETTER = {
   eyebrow: "From the desk",
-  title: "An assistant, not a search box.",
+  title: "A concierge, not a search box.",
   signature: "The Snapi team",
   paragraphs: [
     "Every piece worth having is already for sale somewhere. Finding one was never the hard part — finding the right one, in your size, from a seller worth trusting, at a price that is not quietly last season’s, is.",

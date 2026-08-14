@@ -86,7 +86,7 @@ export function HowItWorks() {
             headingId="how-it-works-heading"
             eyebrow="How it works"
             title="Four steps. Snapi does the middle two."
-            description="You ask, and you decide. Everything in between is Snapi’s job — the sweeping, the cross-checking, and the price history you would dig up yourself if you had the afternoon and the patience."
+            description="You ask, and you decide. Everything in between is Snapi’s — the sweeping, the cross-checking, the price history you would dig up yourself if you had the afternoon and the patience."
           />
         </Reveal>
 

@@ -186,7 +186,7 @@ export function Missions() {
               headingId="missions-heading"
               eyebrow="Missions"
               title="It keeps looking after you close the tab."
-              description="Give Snapi a standing brief and an agent works it in the background — sweeping stock, watching prices, checking sellers. It comes back when something changes, and only then."
+              description="Give Snapi a standing brief and it carries on without you — sweeping stock, watching prices, checking sellers. It comes back when something changes, and only then."
             />
 
             <a

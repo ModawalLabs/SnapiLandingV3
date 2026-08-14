@@ -269,8 +269,8 @@ export function Hero() {
                       className="mx-auto mt-[clamp(0.75rem,2svh,1.5rem)] hidden max-w-xl animate-rise text-[15px] leading-relaxed text-white sm:block sm:text-[1.0625rem]"
                       style={{ animationDelay: "120ms" }}
                     >
-                      Snap it, say it, or simply describe it. Snapi searches every maison and
-                      vetted reseller, compares the real price, and tells you when to buy.
+                      Snap it, say it, or simply describe it. Snapi combs every maison and vetted
+                      reseller, prices it honestly, and tells you when to buy.
                     </p>
 
                     <div
