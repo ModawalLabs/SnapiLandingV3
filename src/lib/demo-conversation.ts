@@ -1,3 +1,6 @@
+import diningTable from "@/assets/all-rounder/dining-table.jpg";
+import outdoorSeater from "@/assets/all-rounder/outdoor-seater.jpg";
+import vitraEames from "@/assets/all-rounder/vitra-eames.jpg";
 import bridalLight from "@/assets/edit/bridal-light.jpg";
 import camelTrench from "@/assets/edit/camel-trench.jpg";
 import greyOvercoat from "@/assets/edit/grey-overcoat.jpg";
@@ -13,10 +16,15 @@ import type { ImageSource } from "@/types/media";
 /**
  * The hero's scripted conversations.
  *
- * Three briefs, each with the answer Snapi would actually return. This data is
+ * Four briefs, each with the answer Snapi would actually return. This data is
  * the argument of the whole page: a visitor watches a question become a set of
  * priced, sourced, explained results in about eight seconds and understands the
  * product without reading a word of marketing copy.
+ *
+ * The fourth is furniture, and it is the only brief here that is not clothing. It
+ * earns its place by being the one a *mission* suits best — a flat is furnished
+ * over weeks, from several sellers, on clearance cycles rather than seasons — and
+ * it is the page's only demonstration that the product reaches past a wardrobe.
  *
  * ## Rules these were written to
  *
@@ -24,10 +32,13 @@ import type { ImageSource } from "@/types/media";
  *    products with prices is a search engine. A list where each row explains
  *    itself is an assistant, and that distinction is the entire pitch.
  *
- * 2. **Two of three verdicts are not "buy".** A shopping assistant that always
- *    recommends buying is an affiliate feed with better manners, and anyone who
- *    has used one recognises the difference immediately. Showing the product
- *    decline is the most credible thing on this page.
+ * 2. **Half the verdicts are not "buy"** — two of four, and hold that ratio if a
+ *    brief is added. A shopping assistant that always recommends buying is an
+ *    affiliate feed with better manners, and anyone who has used one recognises
+ *    the difference immediately. Showing the product decline is the most credible
+ *    thing on this page. (This rule read "two of three" while the data held two
+ *    buys and one wait, so it was describing an intention rather than the file.
+ *    The furniture brief's "not yet" is what made it true.)
  *
  * 3. **Over-budget results are shown and flagged, never hidden.** Silently
  *    filtering to the ceiling is how a tool loses trust the first time a user
@@ -71,6 +82,18 @@ import type { ImageSource } from "@/types/media";
  *     illegible at 56px and obvious to anyone who knows watches. Renaming the three
  *     references is far cheaper than sourcing three matching photographs, and the
  *     references carry no argument that a different model would break.
+ *
+ * **The furniture brief now carries real furniture** from `assets/all-rounder`,
+ * replacing the three borrowed stand-ins it launched with. One row was rewritten to
+ * follow its picture: it was a Muuto Outline — a wool two-seater, with a note about
+ * the cover pilling — and the photograph is a pair of woven outdoor chairs. Copy
+ * follows the image here rather than the reverse, because a note that argues with
+ * its own thumbnail is a contradiction the reader resolves against the page.
+ *
+ * The one thing to watch on that row: `outdoor-seater` is saturated cyan, and this
+ * page is cream, gold and near-black throughout. At 56px it is a small bright block
+ * rather than a clash — and All Rounder's accent *is* azure, so it is at least
+ * inside the system — but it is the only strongly-coloured thumbnail in the file.
  */
 
 export interface DemoResult {
@@ -246,6 +269,65 @@ export const DEMOS: DemoConversation[] = [
       headline: "Take the resale Zimmermann.",
       detail:
         "A third of the retail price for the same season, and the resale floor for this reference has not moved in a year.",
+    },
+  },
+  {
+    // The one brief here that is not clothing, and the one that makes the strongest
+    // case for a mission: nobody furnishes a flat in an afternoon, the pieces are
+    // bought over weeks, and the prices move on clearance cycles rather than on
+    // seasons. It pairs with the Missions grid, which now carries the same brief.
+    prompt: "Furniture for a new flat",
+    scanned: "180 showrooms · 6 vetted resale",
+    results: [
+      {
+        brand: "Carl Hansen & Søn",
+        name: "CH327 Dining Table, oak",
+        merchant: "Carl Hansen & Søn",
+        landed: { amount: 412000, currency: "USD" },
+        note: "Solid oak through the top, not veneer over board. The one piece here that outlives the flat.",
+        badge: "In stock",
+        lead: true,
+        image: diningTable,
+        // Landscape 1000×684 into a 56px square, so this crops by width and keeps
+        // the middle 684 columns. The table fills the centre of the frame with the
+        // chairs at the edges; centred is right, and the vertical 42% lifts the
+        // crop just off the near chair backs at the foot.
+        focus: "object-[50%_42%]",
+      },
+      {
+        // Rewritten to match the photograph rather than the other way round. This
+        // row was a Muuto Outline — a wool two-seater sofa, with a note about the
+        // cover pilling — and the image is a pair of woven outdoor chairs under a
+        // parasol. The note now describes what is actually pictured; a row whose
+        // copy argues with its own thumbnail is the one kind of mismatch the reader
+        // resolves against the page.
+        brand: "Dedon",
+        name: "Woven Lounge Pair",
+        merchant: "Nest",
+        landed: { amount: 268000, currency: "USD" },
+        note: "For the balcony, and the pair rather than the single. Woven over an aluminium frame, so it stays out through winter.",
+        badge: null,
+        image: outdoorSeater,
+        focus: "object-[50%_45%]",
+      },
+      {
+        brand: "Vitra",
+        name: "Eames Lounge, walnut",
+        merchant: "Vitra",
+        landed: { amount: 749000, currency: "USD" },
+        note: "Authorised, not one of the replicas that dominate this search. Well past your ceiling — flagged, not hidden.",
+        badge: "Over budget",
+        image: vitraEames,
+        // 753×1000 into a square crops by height, dropping a quarter of the frame.
+        // 40% keeps the seat and both arms and spends the loss on the floor.
+        focus: "object-[50%_40%]",
+      },
+    ],
+    verdict: {
+      tone: "wait",
+      headline: "Not yet.",
+      detail:
+        "The Outline has closed 15% lower in each of the last two clearance cycles. Snapi is holding all three and will come back when the sofa moves.",
     },
   },
 ];

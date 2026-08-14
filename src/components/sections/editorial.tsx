@@ -7,10 +7,10 @@ import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { APP_URL } from "@/config/site";
 import {
+  EDITORIAL_FEATURE,
   EDITORIAL_INDEX,
   EDITORIAL_LEAD,
   EDITORIAL_MASTHEAD,
-  EDITORIAL_PAIR,
   type EditorialFeature,
   type EditorialStory,
 } from "@/content/editorial";
@@ -23,14 +23,19 @@ import { cn } from "@/lib/utils";
  *
  * Three movements from the platform's nine, chosen because they are the three that
  * establish *publication* rather than *content block*: one large picture with one
- * headline, a letter in the house's own voice, an offset pair of features, and then
- * an index of headlines with no pictures at all. Blocks get smaller and denser the
- * further down you read, exactly as a print magazine narrows from features to
- * columns to the back index.
+ * headline, a letter in the house's own voice, and then a feature set against the
+ * back index. Blocks get smaller and denser the further down you read, exactly as a
+ * print magazine narrows from features to columns to the back index.
  *
  * That taper is the whole difference between this and a "featured articles" grid. A
  * section whose blocks are all one size has no shape however carefully each is
- * built — which is why the index at the end is deliberately unglamorous.
+ * built — which is why the index is deliberately unglamorous.
+ *
+ * The third movement used to be two offset cards, with the index below as a fourth.
+ * Collapsing them cost one photograph and bought a cleaner narrowing: the section no
+ * longer runs picture → picture → picture → index, and the movement that closes it
+ * is now a single picture answered by a column of type. One gesture instead of a
+ * step down, and one `<Rule />` fewer.
  *
  * ## Three details that are conventions, not decoration
  *
@@ -41,9 +46,9 @@ import { cn } from "@/lib/utils";
  *  2. **The lead's type hangs off the base of the photograph** (`lg:self-end`).
  *     Top-aligning both columns is what a CMS does; hanging the headline off the
  *     bottom edge is what a printed spread does.
- *  3. **The pair's offset is ~96px.** A 12px stagger looks like a bug. A 96px one
+ *  3. **The index's offset is ~96px.** A 12px stagger looks like a bug. A 96px one
  *     looks like a decision. It only applies from `lg` — stacked on a phone it is
- *     just an unexplained gap between two cards.
+ *     just an unexplained gap.
  *
  * ## Framing
  *
@@ -129,65 +134,75 @@ export function Editorial() {
 
         <Rule />
 
-        {/* ── 3. Pair, offset ────────────────────────────────────────────── */}
+        {/* ── 3. Feature, with the index as its sidebar ──────────────────── */}
+        {/* This was two photographic cards, offset. The shoes piece came out and the
+            back index moved up into the space rather than a second picture, which
+            changes what the movement *is*: a feature with a sidebar instead of a
+            spread of two.
+
+            That is the better shape for the taper. The section was running
+            picture → picture → picture → index, and the third card was the weakest
+            of them; pairing one picture against type turns the narrowing into a
+            single gesture instead of a step down.
+
+            **Geometry.** The feature keeps `lg:col-span-5 lg:max-w-[75%]` — five
+            columns capped at three-quarters, which is where the 25% reduction lives.
+            The index takes columns 8–12, exactly the slot the second card occupied,
+            so the movement still runs flush to both outer margins. The wide gutter
+            between them is the same one the lead movement uses, and it is what keeps
+            a picture and a column of type from reading as two unrelated blocks.
+
+            `lg:mt-24` is inherited from the old stagger and still earns its place:
+            it stops the index's eyebrow competing with the photograph for the top
+            line, and it settles the index's mass nearer the picture's middle than a
+            top-aligned column would. Below `lg` the whole thing stacks. */}
         <div className="grid gap-12 lg:grid-cols-12">
-          {EDITORIAL_PAIR.map((story, index) => (
-            <Reveal
-              key={story.slug}
-              delay={index * 0.08}
-              className={cn("lg:col-span-5", index === 1 && "lg:col-start-8 lg:mt-24")}
-            >
-              <Feature story={story} />
-            </Reveal>
-          ))}
+          <Reveal className="lg:col-span-5 lg:max-w-[75%]">
+            <Feature story={EDITORIAL_FEATURE} />
+          </Reveal>
+
+          <Reveal delay={0.08} className="lg:col-span-5 lg:col-start-8 lg:mt-24">
+            {/* Was "Also in this issue" / "Shorter pieces, filed the same week".
+                Both had to go with the rewrite: the entries below are prompts now,
+                not pieces, and "shorter" was calibrated against the reading times
+                that no longer exist. This pair says where the block came from
+                instead, which is the claim the section's subhead already makes.
+
+                Stacked rather than set on one line with `justify-between`. That
+                treatment reads as a running head across a full-width block; in a
+                five-column sidebar the two strings very nearly fill the measure and
+                would wrap into a ragged two lines pretending to be one. */}
+            <div className="pb-6">
+              <h3 className="text-eyebrow text-content-subtle">From your searches</h3>
+              <p className="mt-2 text-[11px] tracking-wide text-content-subtle">
+                The briefs this issue was built from
+              </p>
+            </div>
+
+            {/* Single column now, so no `index % 2` rule-drawing and no even-count
+                constraint — entries simply stack under one another. */}
+            <ul className="border-t border-border">
+              {EDITORIAL_INDEX.map((story) => (
+                <li key={story.slug} className="border-b border-border py-6">
+                  <Meta story={story} />
+
+                  <h4 className="mt-3 font-display text-[1.375rem] leading-snug font-normal text-balance text-content">
+                    {story.title}
+                  </h4>
+
+                  {/* No `line-clamp-2` any more. It guarded against three-line decks
+                      back when these were full editorial sentences; the constraint
+                      lines are contractually under six words, so the clamp could
+                      never fire and was only imposing `-webkit-box` and
+                      `overflow: hidden` on a single-line paragraph. */}
+                  <p className="mt-2 text-[13px] leading-relaxed text-content-muted">
+                    {story.standfirst}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
-
-        <Rule />
-
-        {/* ── 4. Index — the taper's narrowest point ─────────────────────── */}
-        <Reveal>
-          {/* Was "Also in this issue" / "Shorter pieces, filed the same week".
-              Both had to go with the rewrite: the entries below are prompts now,
-              not pieces, and "shorter" was calibrated against the reading times
-              that no longer exist. This pair says where the block came from
-              instead, which is the claim the section's subhead already makes. */}
-          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 pb-6">
-            <h3 className="text-eyebrow text-content-subtle">From your searches</h3>
-            <p className="text-[11px] tracking-wide text-content-subtle">
-              The briefs this issue was built from
-            </p>
-          </div>
-
-          <ul className="grid border-t border-border sm:grid-cols-2">
-            {EDITORIAL_INDEX.map((story, index) => (
-              <li
-                key={story.slug}
-                className={cn(
-                  "border-b border-border py-6",
-                  // The vertical rule belongs between the columns, not after the
-                  // last one — and only where there *are* two columns.
-                  index % 2 === 0 && "sm:border-r sm:pr-8",
-                  index % 2 === 1 && "sm:pl-8",
-                )}
-              >
-                <Meta story={story} />
-
-                <h4 className="mt-3 font-display text-[1.375rem] leading-snug font-normal text-balance text-content">
-                  {story.title}
-                </h4>
-
-                {/* No `line-clamp-2` any more. It guarded against three-line decks
-                    back when these were full editorial sentences; the constraint
-                    lines are contractually under six words, so the clamp could
-                    never fire and was only imposing `-webkit-box` and
-                    `overflow: hidden` on a single-line paragraph. */}
-                <p className="mt-2 text-[13px] leading-relaxed text-content-muted">
-                  {story.standfirst}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
 
         {/* ── Colophon ───────────────────────────────────────────────────── */}
         <Reveal>
@@ -243,7 +258,12 @@ function Feature({ story }: { story: EditorialFeature }) {
         alt={story.alt}
         focus={story.focus}
         scrim={false}
-        sizes="(min-width: 1024px) 40vw, 100vw"
+        // 30vw, not 40: the cell is 5/12 of the container and now capped at 75% of
+        // that. Leaving the old 40vw here would keep downloading a file half again
+        // larger than the slot can show — and it is the `wedding-boutonniere`
+        // frame, the one image in this spread with no resolution to spare, so the
+        // narrower box is a straight sharpness win rather than a compromise.
+        sizes="(min-width: 1024px) 30vw, 100vw"
         className="aspect-[4/5] rounded-lg shadow-premium"
       />
 

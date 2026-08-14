@@ -46,8 +46,14 @@ export function Logo({ className }: { className?: string }) {
       {/* `transition-colors` because the header inverts its palette when it has
           no plate behind it (`.header-on-photo`), and this wordmark travels from
           white to near-black with it. Harmless in the footer, which never
-          changes. */}
-      <span className="text-[17px] font-semibold tracking-[-0.02em] text-content transition-colors duration-300">
+          changes.
+
+          `.wordmark-optical` is the vertical alignment. `items-center` above centres
+          the two boxes, but the mark is a shopping bag — a thin handle over a solid
+          body — whose centre of mass sits at 58% of its height rather than 50%, so
+          box-centring leaves the word visibly high. See the note in `globals.css`;
+          the shift is derived from the artwork's alpha channel, not eyeballed. */}
+      <span className="wordmark-optical text-[17px] font-semibold tracking-[-0.02em] text-content transition-colors duration-300">
         {siteConfig.name}
       </span>
     </Link>

@@ -1,9 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
 
-import sneakersStudio from "@/assets/edit/sneakers-studio.jpg";
-import steelMechanism from "@/assets/edit/steel-mechanism.jpg";
-import weddingBoutonniere from "@/assets/edit/wedding-boutonniere.jpg";
+import homeOffice from "@/assets/all-rounder/home-office.jpg";
+import vitraEames from "@/assets/all-rounder/vitra-eames.jpg";
 import yellowShearlingCoat from "@/assets/edit/yellow-shearling-coat.jpg";
+import cartierSantos from "@/assets/products/cartier-santos.jpg";
 import { buttonVariants } from "@/components/ui/button";
 import { MediaFrame } from "@/components/ui/media-frame";
 import { Reveal } from "@/components/ui/reveal";
@@ -44,18 +44,47 @@ import { cn } from "@/lib/utils";
  * should recognise the object they were shown — a landing page that invents its
  * own version of a real screen is a promise the product then has to break.
  *
- * ## Two things about this grid's photography
+ * ## The grid is no longer only fashion
  *
- * **`steel-mechanism` on the Cartier tile is a hard disk drive.** Not a watch
- * movement — an HDD platter and actuator arm, shot as a macro. It was chosen for
- * the read rather than the subject: polished steel, concentric machining, a
- * precision mechanism at 331px under a scrim that covers the lower third. At tile
- * size it passes for horology, and `alt=""` means nothing is asserted to a screen
- * reader. But it is not a watch, and anyone who knows drives will see a drive on a
- * page whose entire argument is expert judgement. Flagged rather than fixed because
- * it was an explicit choice; the fix, if wanted, is any watch macro.
+ * Two of the four briefs are now a flat to furnish and a desk to equip. That is a
+ * deliberate widening and it is the *right* section to do it in: a mission is a
+ * standing brief, and the argument for keeping one open — the thing you are still
+ * deciding about, that you would rather not think about daily — is stronger for a
+ * sofa than for a coat. It also gives the All Rounder edition something to point
+ * at; until now every card on the page was Signature's territory.
  *
- * **The coat tile and its brief now disagree on colour.** The brief still reads
+ * The surrounding copy was deliberately left alone. If the grid drifts further from
+ * fashion the heading and description will need to widen with it, or the section
+ * starts reading as four unrelated cards rather than as one capability.
+ *
+ * ## Photography
+ *
+ * The furniture and home-office tiles now carry real subject-matched shots from
+ * `assets/all-rounder`, replacing the borrowed stand-ins they launched with. Both
+ * are also the best *technical* fits in the set: `vitra-eames` is 753×1000 against
+ * this tile's 3:4, which is a three-pixel discrepancy, and `home-office` is
+ * 827×1000, cropping by width to 750 where the tile wants ~662 at 2×. Neither
+ * upscales. Every other tile in this grid does.
+ *
+ * That reshuffle freed `steel-mechanism` — the hard-disk macro that stood in first
+ * for a watch movement on the Cartier tile and then for the home office — and it has
+ * been deleted, since nothing else on the page had a use for it. Its source is
+ * `34111.jpg` if it is ever wanted back.
+ *
+ * **Cartier therefore has a real Cartier**: `cartier-santos`, the same catalogue
+ * shot the hero's watch demo uses. Two caveats carried over from there — it is a
+ * Santos-Dumont where the brief says Tank, and it is brand-owned marketing imagery
+ * whose licensing is unsettled. It is 533px square against a tile that wants ~662,
+ * so it upscales about 1.65×; a flat studio ground survives that far better than a
+ * textured one would.
+ *
+ * **Two briefs were rewritten to match their photographs rather than the reverse** —
+ * the home office one here, and the sofa row in the hero's furniture demo. In both
+ * cases the copy predated the image and contradicted it outright. A brief that its
+ * own tile disproves is worse than a vaguer brief, because the reader resolves the
+ * contradiction against the page rather than against the picture.
+ *
+ * **The coat tile and its brief disagree on colour.** The brief reads
  * "camel/oatmeal/charcoal" and the photograph is a canary-yellow shearling. The
  * mission is called "A winter coat that isn't black", and yellow makes that point
  * far better than camel ever did — so the photograph is right and the brief is the
@@ -116,30 +145,34 @@ const MISSIONS: {
     brief: "Manual wind, original dial, papers preferred. Vetted resellers only.",
     status: "watching",
     collections: 4,
-    image: steelMechanism,
-    // Near-inert: only 111px of 1000 is discarded, so this shifts the subject by
-    // about one percent of the tile. Stated rather than omitted so nobody spends
-    // time tuning a value that cannot move anything.
-    focus: "object-[50%_55%]",
+    image: cartierSantos,
+    // Square source into a 3:4 tile, so this one crops by *width* — the only tile
+    // in the grid that does. 400 of 533 columns survive, which trims the strap
+    // ends and leaves the case whole; centred is correct and no `focus` is needed.
   },
   {
-    name: "Amalfi wedding, September",
-    brief: "Two looks, one evening. Silk or linen, packs without creasing, FR 38.",
+    name: "Furniture for the new flat",
+    brief: "Sofa, dining table, two chairs. Solid wood, nothing veneered, under $6,000.",
     status: "watching",
     collections: 6,
-    image: weddingBoutonniere,
-    // 2:3 into a 3:4 tile crops by height, dropping 111px. Biased up because the
-    // bottom of this tile is under the darkest part of the scrim carrying the
-    // mission name — detail spent down there is detail nobody sees.
-    focus: "object-[50%_38%]",
+    image: vitraEames,
+    // 753×1000 is 0.753 against this tile's 0.75 — the closest native fit in the
+    // whole asset set. Three pixels of width are discarded and nothing else, so
+    // `focus` would be decorative and is omitted.
   },
   {
-    name: "Loafers I can walk 10km in",
-    brief: "Rubber or combination sole, unlined suede, EU 42. Broken in fast.",
+    name: "The home office, done once",
+    // Rewritten to match the photograph. This read "Matte finishes, quiet fans,
+    // nothing that glows" while the image is a backlit red keyboard, orange-coned
+    // speakers and a sunset wallpaper — a brief that its own tile disproves is
+    // worse than a vaguer one.
+    brief: "Monitor, mechanical keyboard, near-field speakers. One desk, wired once.",
     status: "found",
     collections: 3,
-    image: sneakersStudio,
-    focus: "object-[50%_74%]",
+    image: homeOffice,
+    // 827×1000 into a 3:4 tile crops by width, keeping the middle 750 columns —
+    // the monitor and keyboard survive, the outer window frames go.
+    focus: "object-[50%_45%]",
   },
 ];
 

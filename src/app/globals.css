@@ -547,6 +547,44 @@
   .tabular {
     font-variant-numeric: tabular-nums;
   }
+
+  /**
+   * Optically centres the "Snapi" wordmark against the mark beside it.
+   *
+   * `flex items-center` centres two *boxes*, and for this lockup that is the wrong
+   * answer, because neither box is centred on what the eye actually sees.
+   *
+   * **The mark is bottom-heavy.** It is a shopping bag: a thin handle arc over a
+   * solid body. Measured off the artwork's alpha channel, the top 21% of the file
+   * carries only 16–19% of the coverage of a full row, while everything below is
+   * at 86–100%. Its bounding-box centre is 49.9% of the height; its centre of mass
+   * is **58.0%**. Box-centring therefore parks the word about 8% of the mark's
+   * height above where the bag reads as its middle, and it floats.
+   *
+   * **The text box is not centred on its letters either**, though this part very
+   * nearly cancels. Geist's ascender is 1.005em and its descender 0.295em, so at
+   * the inherited 1.5 line-height the cap-height band (cap top to baseline — the
+   * band a wordmark is aligned on, ignoring the `p` descender) sits 0.15px above
+   * the box centre at 17px. Small enough to ignore, and it is documented only so
+   * the next person does not re-derive it.
+   *
+   * So the correction is the mark's, not the type's: push the word down by 8.14%
+   * of the mark's rendered height.
+   *
+   * **Why one value works for both placements.** The header sets a 32px mark
+   * against 17px type and the footer 36px against 18px — ratios of 1.88 and 2.00.
+   * Close enough that expressing the shift in `em` collapses both cases into one
+   * number: 0.16em lands within 0.11px of the ideal in the header and 0.05px in
+   * the footer. Re-derive it if either ratio moves much past 2.
+   *
+   * `position`/`top` rather than `translate`: a fractional `translateY` on text can
+   * push glyphs off the pixel grid and soften subpixel antialiasing. Neither
+   * affects layout, so this stays purely optical.
+   */
+  .wordmark-optical {
+    position: relative;
+    top: 0.16em;
+  }
 }
 
 /* ---------------------------------------------------------------------------

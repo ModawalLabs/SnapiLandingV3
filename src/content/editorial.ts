@@ -1,6 +1,5 @@
 import atelierMannequin from "@/assets/edit/atelier-mannequin.jpg";
 import weddingBoutonniere from "@/assets/edit/wedding-boutonniere.jpg";
-import sneakersTall from "@/assets/products/sneakers-tall.jpg";
 import type { ImageSource } from "@/types/media";
 
 /**
@@ -8,7 +7,7 @@ import type { ImageSource } from "@/types/media";
  *
  * ## What is verbatim and what is not
  *
- * The **lead and the pair** — and the editor's letter further down — are lifted
+ * The **lead and the feature** — and the editor's letter further down — are lifted
  * word for word from the platform's `mockEditStories` and `mockEditorsLetter`.
  * Keep them that way. This section's whole claim is that the writing is
  * considered, and inventing plausible-sounding headlines in order to demonstrate
@@ -27,10 +26,9 @@ import type { ImageSource } from "@/types/media";
  * ## Photography
  *
  * Assigned by **crop first, subject second** — the platform's own rule, since its
- * asset set was never shot against this archive. All three pairings happen to match
- * on subject as well: the atelier shot leads a piece about tailoring, the
- * boutonnière sits on the wedding piece, and the shoes sit on the piece about
- * soles.
+ * asset set was never shot against this archive. Both surviving pairings happen to
+ * match on subject as well: the atelier shot leads a piece about tailoring, and the
+ * boutonnière sits on the wedding piece.
  *
  * `wedding-boutonniere` is the closest thing here to commissioned photography — a
  * detail rather than a garment, which is what an editorial spread wants and what a
@@ -39,18 +37,15 @@ import type { ImageSource } from "@/types/media";
  * versus cocktail versus "smart casual", and a lapel is where that question is
  * actually settled.
  *
- * `sneakers-tall` is still a product frame rather than an editorial one, and for a
- * duller reason: `atelier-mannequin`, `bridal-light`, `poolside-resort` and
- * `sneakers-studio` already carry the Missions grid *and* the hero's result
- * thumbnails. Using the least-spent image is what stops the page reading as eleven
- * crops of the same five photographs.
+ * `sneakers-tall` used to sit on the shoes piece here, and went with it — that was
+ * the asset's only remaining use, so it was deleted rather than left orphaned. Its
+ * source is in `snapi-platform/src/assets/products/` if the piece ever returns.
  *
  * **Resolution ceiling.** `wedding-boutonniere` is 667×1000 and there is no larger
- * master — the platform's copy is byte-identical. The pair renders around 576 CSS px
- * wide, so on a 2× screen this frame is the one image in the spread that is
- * genuinely upscaled. It survives it better than most would, because a tight detail
- * crop has no fine repeating structure to alias, but it is the constraint to fix
- * with a bigger file rather than a different encode.
+ * master — the platform's copy is byte-identical. Losing the second card actually
+ * helped here: at `lg:max-w-[75%]` of five columns the frame now renders around
+ * 430 CSS px rather than 576, which brings a 2× screen inside what the file can
+ * actually supply. It is no longer the spread's weakest image.
  *
  * The lead still reuses `atelier-mannequin`, because it is the only true 2:3 in
  * the set and the lead frame crops nothing. That reuse is the first thing real
@@ -83,34 +78,29 @@ export const EDITORIAL_LEAD: EditorialFeature = {
   alt: "A tailor pinning patterned fabric to a dress form in a workroom.",
 };
 
-/** Two features, the second dropped six rows on wide screens. */
-export const EDITORIAL_PAIR: EditorialFeature[] = [
-  {
-    slug: "dressing-for-the-wedding",
-    title: "Dressing for the Wedding",
-    standfirst:
-      "Black tie, cocktail, and the phrase “smart casual” on an invitation — what each is actually asking for, and the one piece that answers all three.",
-    category: "Wedding",
-    image: weddingBoutonniere,
-    alt: "A hand pinning a pink and white boutonnière to the lapel of a grey checked suit jacket.",
-    // 667×1000 is a 2:3, so a 4:5 frame crops it by height and drops 166px. A
-    // centre crop would take half of that off the top, where the knitted bow tie
-    // is; biasing up keeps the tie and the boutonnière together and spends the
-    // loss on the lace cuff at the foot instead.
-    focus: "object-[50%_38%]",
-  },
-  {
-    slug: "the-sole-that-outlives-the-shoe",
-    title: "The Sole That Outlives the Shoe",
-    standfirst:
-      "Welted, blake, or glued. A cobbler on which of the three is worth resoling twice, and how to tell them apart in a listing photograph.",
-    category: "Shoes",
-    image: sneakersTall,
-    alt: "Cream high-top trainers with a gradient sole, shot against a yellow sweep.",
-    // Framed low. The shoes are the bottom third of the source.
-    focus: "object-[50%_62%]",
-  },
-];
+/**
+ * The single second feature, set against the index rather than against another card.
+ *
+ * This was `EDITORIAL_PAIR`, an array of two, until the shoes piece came out and the
+ * back index moved up beside what remained. Renamed to the singular rather than left
+ * as a one-element array called "pair": the name is the first thing that tells the
+ * next person what the movement is, and a `PAIR` holding one item reads as something
+ * half-deleted.
+ */
+export const EDITORIAL_FEATURE: EditorialFeature = {
+  slug: "dressing-for-the-wedding",
+  title: "Dressing for the Wedding",
+  standfirst:
+    "Black tie, cocktail, and the phrase “smart casual” on an invitation — what each is actually asking for, and the one piece that answers all three.",
+  category: "Wedding",
+  image: weddingBoutonniere,
+  alt: "A hand pinning a pink and white boutonnière to the lapel of a grey checked suit jacket.",
+  // 667×1000 is a 2:3, so a 4:5 frame crops it by height and drops 166px. A
+  // centre crop would take half of that off the top, where the knitted bow tie
+  // is; biasing up keeps the tie and the boutonnière together and spends the
+  // loss on the lace cuff at the foot instead.
+  focus: "object-[50%_38%]",
+};
 
 /**
  * The back index — and the one part of this section that is *not* the magazine
@@ -143,6 +133,23 @@ export const EDITORIAL_PAIR: EditorialFeature[] = [
  *
  * This is the one block on the page that departs from the platform's
  * `mockEditStories` wording — see the note at the top of this file.
+ *
+ * ## Two entries, and the even-count rule no longer applies
+ *
+ * There were six: bags, rain coats, one-colour dressing and small workrooms went,
+ * leaving knitwear and watches. This block used to carry a **keep the count even**
+ * constraint, because it was a two-column grid whose vertical rule was drawn by
+ * `index % 2 === 0` and an odd count left a hairline pointing into empty space.
+ *
+ * That constraint is gone. The index now sits in a single narrow column beside the
+ * wedding feature, so entries stack and any count renders correctly.
+ *
+ * What replaces it is a **height** budget rather than a parity one. The column is
+ * set against a feature that runs a 4:5 photograph plus a caption, and the two are
+ * meant to read as one composed spread. At two entries the index is a little over
+ * half the feature's height, which is the proportion a sidebar wants; much past
+ * four and it will outgrow the picture beside it and the movement stops being a
+ * feature with an index and becomes two lists.
  */
 export const EDITORIAL_INDEX: EditorialStory[] = [
   {
@@ -156,30 +163,6 @@ export const EDITORIAL_INDEX: EditorialStory[] = [
     title: "A watch that holds value",
     standfirst: "Papers, original dial, vetted seller",
     category: "Watches",
-  },
-  {
-    slug: "one-bag-for-twenty-years",
-    title: "One bag for twenty years",
-    standfirst: "Vegetable-tanned, unlined, ages well",
-    category: "Accessories",
-  },
-  {
-    slug: "a-coat-for-real-rain",
-    title: "A coat for real rain",
-    standfirst: "Waxed cotton or shell, mid-length",
-    category: "Outerwear",
-  },
-  {
-    slug: "one-colour-everything-else-neutral",
-    title: "One colour, everything else neutral",
-    standfirst: "One saturated piece, worn constantly",
-    category: "Style",
-  },
-  {
-    slug: "who-actually-still-makes-this",
-    title: "Who actually still makes this",
-    standfirst: "Small workrooms, made by hand",
-    category: "Craft",
   },
 ];
 

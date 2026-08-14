@@ -12,6 +12,18 @@ import { Section, SectionHeader } from "@/components/ui/section";
  * this design is to look like none of them; a hairline-separated list with
  * oversized figures is how a print magazine sets a sequence.
  *
+ * ## The heading counts what the reader does, not what the list contains
+ *
+ * It read "Four steps, and you only do the first one" while step 04 was Snapi
+ * telling you when to buy. Once ordering took that slot the sentence was simply
+ * false — the reader now does the first *and* the last — and a heading that
+ * contradicts the list directly beneath it is worse than a duller one.
+ *
+ * "Snapi does the middle two" keeps the same promise and survives the change: the
+ * shape of the argument is that the reader books the job and signs it off, and
+ * everything expensive in between is handled. If a fifth step is ever added, this
+ * heading has to be re-counted with it.
+ *
  * The photograph is sticky on wide screens, so the reader's eye has a fixed
  * anchor while the steps move past it. Below `lg` it sits above the list — a
  * sticky element inside a short column just jitters.
@@ -47,12 +59,17 @@ const STEPS = [
     body: "Authorised boutiques, department stores, and vetted resale — checked for real stock in your size, not a listing that has been dead since spring.",
   },
   {
-    title: "It compares the real price",
-    body: "Landed cost, not the sticker: duties, shipping, seller history, and what the same reference actually closed at recently. Anything over your ceiling is flagged, never hidden.",
+    // Absorbed the old step 04. "It tells you when to buy" was its own step until
+    // ordering took the fourth slot, and it is the page's most credible claim —
+    // an assistant that will tell you *not* to buy is the thing an affiliate feed
+    // structurally cannot say. It belongs beside the price comparison anyway: the
+    // timing verdict is an output of the price history, not a separate stage.
+    title: "It compares, and tells you when",
+    body: "Landed cost, not the sticker: duties, shipping, seller history, and what the same reference actually closed at recently. Anything over your ceiling is flagged, never hidden — and if the answer is not yet, it says so and keeps the search open.",
   },
   {
-    title: "It tells you when to buy",
-    body: "Now, or not yet. If the answer is not yet, Snapi keeps the search open and comes back when the price moves or your size appears.",
+    title: "You place the order",
+    body: "Snapi hands you to the seller it recommends — the authorised boutique, or the vetted reseller it has already checked — at the price it quoted you. The last call is yours, and it is the only part of this worth doing yourself.",
   },
 ] as const;
 
@@ -68,8 +85,8 @@ export function HowItWorks() {
           <SectionHeader
             headingId="how-it-works-heading"
             eyebrow="How it works"
-            title="Four steps, and you only do the first one."
-            description="Everything after the question is Snapi’s job. The work it does is the work you would do yourself if you had the afternoon and the patience."
+            title="Four steps. Snapi does the middle two."
+            description="You ask, and you decide. Everything in between is Snapi’s job — the sweeping, the cross-checking, and the price history you would dig up yourself if you had the afternoon and the patience."
           />
         </Reveal>
 

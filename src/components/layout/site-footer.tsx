@@ -55,6 +55,12 @@ export function SiteFooter() {
       <div className="container-page py-20 sm:py-24">
         <div className="grid gap-14 lg:grid-cols-[1.4fr_2fr]">
           <div>
+            {/* Deliberately not `<Logo>`: that component is a link to `#top`, and a
+                second "back to top" at the foot of the page duplicates a control the
+                header already provides on every scroll position. The lockup is
+                repeated rather than shared — but `.wordmark-optical` is the one part
+                that must not drift between the two, which is why it is a utility
+                rather than a number inlined twice. See `globals.css`. */}
             <div className="flex items-center gap-3">
               <Image
                 src={logoLight}
@@ -63,7 +69,9 @@ export function SiteFooter() {
                 sizes="64px"
                 className="h-9 w-auto object-contain"
               />
-              <span className="text-lg font-semibold tracking-[-0.02em]">{siteConfig.name}</span>
+              <span className="wordmark-optical text-lg font-semibold tracking-[-0.02em]">
+                {siteConfig.name}
+              </span>
             </div>
 
             <p className="mt-6 max-w-sm text-[13px] leading-relaxed text-content-muted">
