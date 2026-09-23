@@ -63,8 +63,8 @@ export function PullQuote() {
                 </span>
 
                 <p className="mt-8 font-display text-[clamp(1.75rem,4.6vw,3.5rem)] leading-[1.16] font-normal tracking-[-0.005em] text-white">
-                  The best thing you can say about a coat is that you eventually stopped noticing
-                  it.
+                  The best thing you can say about a coat is that you eventually stopped
+                  <br /> noticing it.
                 </p>
               </blockquote>
 

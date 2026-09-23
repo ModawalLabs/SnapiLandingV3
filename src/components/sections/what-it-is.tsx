@@ -74,13 +74,16 @@ export function WhatItIs() {
 
           <h2
             id="what-it-is-heading"
-            className="mt-6 max-w-4xl font-display text-[clamp(1.75rem,3.9vw,3.25rem)] leading-[1.18] font-normal tracking-[-0.005em] text-content"
+            className="mt-6 max-w-4xl font-display text-[clamp(1.75rem,3.9vw,3.25rem)] leading-[1.18] font-normal tracking-[-0.005em] text-content lg:max-w-none lg:text-[clamp(1.5rem,2.5vw,2rem)] lg:leading-[1.3]"
           >
+            {/* Set as three lines from lg up; the breaks are hidden below that,
+                where the sentence is too long to hold three lines and wraps. */}
             A concierge, not a search box. Describe what you want and Snapi reads the listings
-            like a good buyer —{" "}
+            <br className="hidden lg:block" /> like a good buyer —{" "}
             <span className="text-content-subtle">
-              who really has stock, what the piece sold for last month, which sellers ship without a
-              story, and whether it is the version the review was about.
+              who really has stock, what the piece sold for last month, which
+              <br className="hidden lg:block" /> sellers ship without a story, and whether it is the
+              version the review was about.
             </span>
           </h2>
         </Reveal>
